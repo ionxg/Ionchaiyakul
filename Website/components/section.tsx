@@ -1,6 +1,6 @@
 import { Github, Linkedin, Mail } from "lucide-react"
 
-export function HeroSection() {
+export function Section() {
   return (
     <section className="min-h-screen flex flex-col justify-center px-6 md:px-12 lg:px-24 py-20">
       <div className="max-w-6xl mx-auto w-full grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">

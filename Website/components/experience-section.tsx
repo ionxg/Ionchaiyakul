@@ -14,10 +14,19 @@ const experiences: ExperienceItem[] = [
     period: "2026 — Present",
     title: "Academic Tutor",
     company: "Victoria University of Wellington",
-    companyUrl: "#",
+    companyUrl: "https://www.wgtn.ac.nz/",
     description:
       "Provide academic support and guidance to students in Cyber Security, fostering a positive learning environment and helping them achieve their academic goals.",
     technologies: ["Cyber Security", "Linux", "cryptography"],
+  },
+  {
+    period: "2025",
+    title: "3rd Place - VUW Hackathon 2025",
+    company: "",
+    companyUrl: "https://www.wgtn.ac.nz/",
+    description:
+      "Collaborated with a team to develop an innovative solution during the VUW Hackathon 2025, demonstrating strong problem-solving skills and creativity in a competitive environment.",
+    technologies: ["React", "Node.js", "Git", "Docker"],
   }
 ]
 
