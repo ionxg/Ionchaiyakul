@@ -51,7 +51,7 @@ export function HeroSection() {
           {/* Social Links */}
           <div className="flex items-center gap-6 pt-8">
             <a
-              href="https://github.com"
+              href="https://github.com/ionxg"
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-foreground transition-colors"
@@ -60,7 +60,7 @@ export function HeroSection() {
               <Github className="w-6 h-6" />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/ionchaiyakul"
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-foreground transition-colors"
@@ -69,7 +69,7 @@ export function HeroSection() {
               <Linkedin className="w-6 h-6" />
             </a>
             <a
-              href="mailto:your.email@example.com"
+              href="mailto:ionxgion@gmail.com"
               className="text-muted-foreground hover:text-foreground transition-colors"
               aria-label="Email"
             >
