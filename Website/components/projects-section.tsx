@@ -14,7 +14,7 @@ const projects: Project[] = [
     description:
       "A personal portfolio website showcasing projects and skills. Built with performance and accessibility in mind.",
     technologies: ["Next.js", "Tailwind CSS", "Framer Motion"],
-    githubUrl: "#",
+    githubUrl: "https://github.com/ionxg/Ionchaiyakul",
     liveUrl: "#",
   },
   {
@@ -24,6 +24,14 @@ const projects: Project[] = [
     technologies: ["Next.js", "CSS", "HTML"],
     githubUrl: "https://github.com/ionxg/Murder-mystery-machanic",
     liveUrl: "https://github.com/ionxg/Murder-mystery-machanic",
+  },
+  {
+    title: "Murder Mystery Game - Website",
+    description:
+      "A website designed to present character details, background information, and the storyline for the murder mystery event. It helps players understand the setting, roles, and narrative before and during the game, making the overall experience more immersive and easier to follow.",
+    technologies: ["HTML"],
+    githubUrl: "https://github.com/ionxg/Website-for-Murder-Mystery",
+    liveUrl: "https://github.com/ionxg/Website-for-Murder-Mystery",
   },
   {
     title: "Privacy-Preserving Machine Learning (Ongoing Research) | Self-Directed",
