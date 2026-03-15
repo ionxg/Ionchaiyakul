@@ -11,32 +11,14 @@ interface ExperienceItem {
 
 const experiences: ExperienceItem[] = [
   {
-    period: "2023 — Present",
-    title: "Software Developer",
-    company: "Your Company",
+    period: "2026 — Present",
+    title: "Academic Tutor",
+    company: "Victoria University of Wellington",
     companyUrl: "#",
     description:
-      "Build and maintain critical components used to construct modern web applications. Work closely with cross-functional teams including developers, designers, and product managers.",
-    technologies: ["JavaScript", "TypeScript", "React", "Node.js"],
-  },
-  {
-    period: "2022 — 2023",
-    title: "Junior Developer",
-    company: "Previous Company",
-    companyUrl: "#",
-    description:
-      "Developed and styled interactive web applications for various clients. Worked with a team to implement responsive designs and ensure cross-browser compatibility.",
-    technologies: ["HTML", "CSS", "JavaScript", "Git"],
-  },
-  {
-    period: "2021 — 2022",
-    title: "Intern Developer",
-    company: "Startup Inc",
-    companyUrl: "#",
-    description:
-      "Assisted in developing web applications and learned best practices for software development. Gained experience with agile methodologies and version control systems.",
-    technologies: ["Python", "Django", "PostgreSQL"],
-  },
+      "Provide academic support and guidance to students in Cyber Security, fostering a positive learning environment and helping them achieve their academic goals.",
+    technologies: ["Cyber Security", "Linux", "cryptography"],
+  }
 ]
 
 export function ExperienceSection() {
