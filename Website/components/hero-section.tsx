@@ -87,7 +87,7 @@ export function HeroSection() {
             {"Currently, I'm focused on building scalable web applications and learning new technologies. I am also doing research about how to train AI with encrpyted data which will provide many benefits including privacy, reliability, and security. "}
           </p>
           <p>
-            {"When I'm not coding, you'll find me exploring new technologies, contributing to open-source projects, or improving my problem-solving skills through coding challenges."}
+            {"When I'm not coding, you'll find me exploring new technologies, contributing to University Club activities, or improving my problem-solving skills through coding challenges."}
           </p>
         </div>
       </div>
