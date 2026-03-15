@@ -10,36 +10,13 @@ interface Project {
 
 const projects: Project[] = [
   {
-    title: "E-Commerce Platform",
-    description:
-      "A full-stack e-commerce application with product management, shopping cart, and payment integration. Built with modern web technologies and responsive design.",
-    technologies: ["React", "Node.js", "MongoDB", "Stripe"],
-    githubUrl: "#",
-    liveUrl: "#",
-  },
-  {
-    title: "Task Management App",
-    description:
-      "A productivity application for managing tasks and projects with features like drag-and-drop, due dates, and team collaboration capabilities.",
-    technologies: ["Next.js", "TypeScript", "PostgreSQL", "Tailwind"],
-    githubUrl: "#",
-    liveUrl: "#",
-  },
-  {
-    title: "Weather Dashboard",
-    description:
-      "A weather application that displays current conditions and forecasts using data from a weather API. Features location search and responsive charts.",
-    technologies: ["JavaScript", "REST API", "Chart.js", "CSS"],
-    githubUrl: "#",
-  },
-  {
     title: "Portfolio Website",
     description:
       "A personal portfolio website showcasing projects and skills. Built with performance and accessibility in mind.",
     technologies: ["Next.js", "Tailwind CSS", "Framer Motion"],
     githubUrl: "#",
     liveUrl: "#",
-  },
+  }
 ]
 
 export function ProjectsSection() {
