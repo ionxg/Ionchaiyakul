@@ -16,6 +16,22 @@ const projects: Project[] = [
     technologies: ["Next.js", "Tailwind CSS", "Framer Motion"],
     githubUrl: "#",
     liveUrl: "#",
+  },
+  {
+    title: "Murder Mystery Game - Mechanic",
+    description:
+      "A personal portfolio website showcasing projects and skills. Built with performance and accessibility in mind.",
+    technologies: ["Next.js", "CSS", "HTML"],
+    githubUrl: "#",
+    liveUrl: "#",
+  },
+  {
+    title: "Privacy-Preserving Machine Learning (Ongoing Research) | Self-Directed",
+    description:
+      "Investigating method for training neural networks on encrypted datasets to ensure data privacy without sacrificing model utility.",
+    technologies: ["AI", "Homomorphic Encryption", "Privacy"],
+    githubUrl: "#",
+    liveUrl: "#",
   }
 ]
 
