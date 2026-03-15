@@ -81,10 +81,10 @@ export function HeroSection() {
         {/* Right Column - About Content */}
         <div id="about" className="space-y-6 text-muted-foreground leading-relaxed">
           <p>
-            {"I'm a developer passionate about crafting accessible, pixel-perfect user interfaces that blend thoughtful design with robust engineering. My favorite work lies at the intersection of design and development, creating experiences that not only look great but are meticulously built for performance and usability."}
+            {"I’m Wachirawit Chaiyakul, a Software Engineering student at Victoria University of Wellington. I’m interested in software development, cybersecurity, and AI, and I enjoy building practical projects that solve real problems. I’m currently working as an academic tutor and developing my skills in web development, systems programming, and machine learning."}
           </p>
           <p>
-            {"Currently, I'm focused on building scalable web applications and learning new technologies."}
+            {"Currently, I'm focused on building scalable web applications and learning new technologies. I am also doing research about how to train AI with encrpyted data which will provide many benefits including privacy, reliability, and security. "}
           </p>
           <p>
             {"When I'm not coding, you'll find me exploring new technologies, contributing to open-source projects, or improving my problem-solving skills through coding challenges."}
