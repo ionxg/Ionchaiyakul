@@ -23,12 +23,12 @@ export function Footer() {
           </a>
           . Deployed on{" "}
           <a
-            href="https://vercel.com"
+            href="https://github.com"
             target="_blank"
             rel="noopener noreferrer"
             className="text-foreground hover:text-primary transition-colors"
           >
-            Vercel
+            GitHub
           </a>
           .
         </p>
