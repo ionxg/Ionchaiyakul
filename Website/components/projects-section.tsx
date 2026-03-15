@@ -21,7 +21,7 @@ const projects: Project[] = [
     title: "Murder Mystery Game - Mechanic",
     description:
       "A web-based interactive murder mystery system designed for a club event. Players progress through 3 rounds, making choices in each round. After every choice, the server returns a response such as clues, consequences, or story updates, allowing the game to continue dynamically. The website is a core part of the event experience, since the game cannot run properly without it.",
-    technologies: ["Next.js", "CSS", "HTML"],
+    technologies: ["Javascript", "CSS", "HTML"],
     githubUrl: "https://github.com/ionxg/Murder-mystery-machanic",
     liveUrl: "https://github.com/ionxg/Murder-mystery-machanic",
   },
