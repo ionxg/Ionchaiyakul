@@ -25,7 +25,7 @@ const experiences: ExperienceItem[] = [
     company: "Victoria University of Wellington",
     companyUrl: "https://www.wgtn.ac.nz/",
     description:
-      "Serve as a club executive in many positions(Sponsorship, Treasurer, Events co-ordinator, etc.) at Victoria University of Wellington, organizing events, workshops, and activities to promote engagement.",
+      "Serve as a club executive in many positions( Sponsorship, Treasurer, Events co-ordinator, etc.) at Victoria University of Wellington, organizing events, workshops, and activities to promote engagement.",
     technologies: ["Leadership", "Event Planning", "Communication", "Teamwork", "Organizational Skills"],
   },
   {

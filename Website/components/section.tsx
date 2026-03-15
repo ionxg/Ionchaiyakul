@@ -69,7 +69,7 @@ export function Section() {
               <Linkedin className="w-6 h-6" />
             </a>
             <a
-              href="mailto:ionxgion@gmail.com"
+              href="mailto:chaiyawach@myvuw.ac.nz"
               className="text-muted-foreground hover:text-foreground transition-colors"
               aria-label="Email"
             >
