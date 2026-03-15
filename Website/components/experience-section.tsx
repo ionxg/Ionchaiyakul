@@ -20,6 +20,15 @@ const experiences: ExperienceItem[] = [
     technologies: ["Cyber Security", "Linux", "cryptography"],
   },
   {
+    period: "2024 — Present",
+    title: "Club Executive - VUW",
+    company: "Victoria University of Wellington",
+    companyUrl: "https://www.wgtn.ac.nz/",
+    description:
+      "Serve as a club executive in many positions(Sponsorship, Treasurer, Events co-ordinator) at Victoria University of Wellington, organizing events, workshops, and activities to promote engagement.",
+    technologies: ["Leadership", "Event Planning", "Communication"],
+  },
+  {
     period: "2025",
     title: "3rd Place - VUW Hackathon 2025",
     company: "",
