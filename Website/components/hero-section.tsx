@@ -7,13 +7,13 @@ export function HeroSection() {
         {/* Left Column - Introduction */}
         <div className="space-y-6">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-balance">
-            Your Name
+            Wachirawit Chaiyakul
           </h1>
           <p className="text-xl md:text-2xl text-primary font-medium">
-            Software Developer
+            Software Engineering Student
           </p>
           <p className="text-muted-foreground leading-relaxed max-w-md">
-            I build accessible, pixel-perfect digital experiences for the web.
+            This is my personal website where I showcase my projects and experience.
           </p>
 
           {/* Navigation */}
