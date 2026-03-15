@@ -84,7 +84,7 @@ export function HeroSection() {
             {"I'm a developer passionate about crafting accessible, pixel-perfect user interfaces that blend thoughtful design with robust engineering. My favorite work lies at the intersection of design and development, creating experiences that not only look great but are meticulously built for performance and usability."}
           </p>
           <p>
-            {"Currently, I'm focused on building scalable web applications and learning new technologies. In the past, I've had the opportunity to develop software across a variety of settings — from startups to personal projects."}
+            {"Currently, I'm focused on building scalable web applications and learning new technologies."}
           </p>
           <p>
             {"When I'm not coding, you'll find me exploring new technologies, contributing to open-source projects, or improving my problem-solving skills through coding challenges."}
