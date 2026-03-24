@@ -20,6 +20,15 @@ const experiences: ExperienceItem[] = [
     technologies: ["Cyber Security", "Linux", "cryptography"],
   },
   {
+    period: "2026 — Present",
+    title: "President - Victoria Engineering Club",
+    company: "Victoria University of Wellington",
+    companyUrl: "https://nz.linkedin.com/company/vecnz",
+    description:
+      "Lead the Victoria Engineering Club as President, overseeing club operations, organizing events, and fostering a community for engineering students to connect and collaborate.",
+    technologies: ["Leadership", "Event Planning", "Communication", "Teamwork", "Organizational Skills"],
+  },
+  {
     period: "2024 — Present",
     title: "Club Executive - VUW",
     company: "Victoria University of Wellington",
