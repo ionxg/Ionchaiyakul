@@ -47,15 +47,6 @@ const experiences: ExperienceItem[] = [
     technologies: ["Sponsorship", "Networking", "Communication", "Relationship Management", "Negotiation"],
   },
   {
-    period: "2025 — 2026",
-    title: "Sponsorship",
-    company: "Thai Student Association (TSA) - Victoria University of Wellington",
-    companyUrl: "https://www.wgtn.ac.nz/",
-    description:
-      "Support sponsorship and partnership efforts for club initiatives and cultural events, helping strengthen community engagement and event success.",
-    technologies: ["Sponsorship", "Communication", "Event Support", "Networking", "Teamwork"],
-  }, 
-  {
     period: "2025",
     title: "3rd Place - VUW Hackathon 2025",
     company: "",
@@ -63,6 +54,15 @@ const experiences: ExperienceItem[] = [
     description:
       "Collaborated with a team to develop an innovative solution during the VUW Hackathon 2025, demonstrating strong problem-solving skills and creativity in a competitive environment.",
     technologies: ["React", "Node.js", "Git", "Docker"],
+  },
+  {
+    period: "2024 — 2025",
+    title: "Sponsorship",
+    company: "Thai Student Association (TSA) - Victoria University of Wellington",
+    companyUrl: "https://www.wgtn.ac.nz/",
+    description:
+      "Support sponsorship and partnership efforts for club initiatives and cultural events, helping strengthen community engagement and event success.",
+    technologies: ["Sponsorship", "Communication", "Event Support", "Networking", "Teamwork"],
   }
 ]
 
