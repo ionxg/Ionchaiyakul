@@ -20,14 +20,41 @@ const experiences: ExperienceItem[] = [
     technologies: ["Cyber Security", "Linux", "cryptography"],
   },
   {
-    period: "2024 — Present",
-    title: "Club Executive - VUW",
-    company: "Victoria University of Wellington",
+    period: "2026 — Present",
+    title: "President",
+    company: "Victoria Engineering Club (VEC) - Victoria University of Wellington",
     companyUrl: "https://www.wgtn.ac.nz/",
     description:
-      "Serve as a club executive in many positions (Sponsorship, Treasurer, Events co-ordinator, etc.) at Victoria University of Wellington, organizing events, workshops, and activities to promote engagement.",
+      "Lead the Victoria Engineering Club by overseeing club direction, coordinating events, building industry connections, and creating opportunities for engineering and technology students to engage, grow, and connect.",
     technologies: ["Leadership", "Event Planning", "Communication", "Teamwork", "Organizational Skills"],
   },
+  {
+    period: "2026 — Present",
+    title: "Treasurer",
+    company: "Language Exchange Club (LEC) - Victoria University of Wellington",
+    companyUrl: "https://www.wgtn.ac.nz/",
+    description:
+      "Manage the club’s finances, budgeting, and spending while supporting the planning and delivery of events and activities for students.",
+    technologies: ["Budgeting", "Financial Management", "Organization", "Communication", "Teamwork"],
+  },
+  {
+    period: "2025 — 2026",
+    title: "Sponsorship",
+    company: "Language Exchange Club (LEC) - Victoria University of Wellington",
+    companyUrl: "https://www.wgtn.ac.nz/",
+    description:
+      "Reach out to external partners and sponsors to secure support for club events, helping expand opportunities and resources for members.",
+    technologies: ["Sponsorship", "Networking", "Communication", "Relationship Management", "Negotiation"],
+  },
+  {
+    period: "2025 — 2026",
+    title: "Sponsorship",
+    company: "Thai Student Association (TSA) - Victoria University of Wellington",
+    companyUrl: "https://www.wgtn.ac.nz/",
+    description:
+      "Support sponsorship and partnership efforts for club initiatives and cultural events, helping strengthen community engagement and event success.",
+    technologies: ["Sponsorship", "Communication", "Event Support", "Networking", "Teamwork"],
+  }, 
   {
     period: "2025",
     title: "3rd Place - VUW Hackathon 2025",
