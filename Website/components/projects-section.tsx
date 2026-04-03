@@ -18,6 +18,14 @@ const projects: Project[] = [
     liveUrl: "#",
   },
   {
+    title: "Telecom Integration Project",
+    description:
+      "Built a telecom service integration simulator to model subscriber provisioning, session management, and VoLTE-style call setup. The project focuses on REST API communication, multi-service integration, and testing end-to-end telecom workflows.",
+    technologies: ["Python", "FastAPI", "Docker", "REST API", "Postman"],
+    githubUrl: "https://github.com/ionxg/telecom-intregration",
+    liveUrl: "https://github.com/ionxg/telecom-intregration",
+  },
+  {
     title: "Murder Mystery Game - Mechanic",
     description:
       "A web-based interactive murder mystery system designed for a club event. Players progress through 3 rounds, making choices in each round. After every choice, the server returns a response such as clues, consequences, or story updates, allowing the game to continue dynamically. The website is a core part of the event experience, since the game cannot run properly without it.",
