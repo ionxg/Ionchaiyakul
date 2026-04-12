@@ -18,6 +18,14 @@ const projects: Project[] = [
     liveUrl: "#",
   },
   {
+    title: "Security Log Analyzer",
+    description:
+      "Python-based security log analyzer that reads Linux auth logs and detects suspicious SSH login activity. It tracks failed and successful logins, highlights suspicious IPs, identifies targeted usernames, and flags possible brute-force attacks.",
+    technologies: ["Python", "Regular Expressions", "Log Analysis", "Cybersecurity Fundamentals", "SSH"],
+    githubUrl: "https://github.com/ionxg/security-log-analyzer",
+    liveUrl: "https://github.com/ionxg/security-log-analyzer",
+  },
+  {
     title: "Telecom Integration Project",
     description:
       "Built a telecom service integration simulator to model subscriber provisioning, session management, and VoLTE-style call setup. The project focuses on REST API communication, multi-service integration, and testing end-to-end telecom workflows.",
