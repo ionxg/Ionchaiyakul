@@ -18,6 +18,14 @@ const projects: Project[] = [
     liveUrl: "#",
   },
   {
+  title: "VEC Point System",
+    description:
+      "Full-stack student engagement platform for Victoria Engineering Club that uses QR code scanning to track event attendance and reward member participation. It includes student ID login, member-only access, points collection, scan history, and an admin dashboard for QR code and points management.",
+    technologies: ["Next.js", "TypeScript", "Supabase", "PostgreSQL", "Vercel", "QR Code System"],
+    githubUrl: "https://github.com/ionxg/vec-point",
+    liveUrl: "https://vec-point.vercel.app",
+  },
+  {
     title: "Security Log Analyzer",
     description:
       "Python-based security log analyzer that reads Linux auth logs and detects suspicious SSH login activity. It tracks failed and successful logins, highlights suspicious IPs, identifies targeted usernames, and flags possible brute-force attacks.",
