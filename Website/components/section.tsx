@@ -7,7 +7,7 @@ export function Section() {
         {/* Left Column - Introduction */}
         <div className="space-y-6">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-balance">
-            Wachirawit Chaiyakul
+            Ion Chaiyakul
           </h1>
           <p className="text-xl md:text-2xl text-primary font-medium">
             Software Engineering Student
