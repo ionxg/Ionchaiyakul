@@ -10,7 +10,7 @@ interface EducationItem {
 // TODO: update the degree name, dates, and coursework to match your records.
 const education: EducationItem[] = [
   {
-    period: "2022 — 2026 (Expected)",
+    period: "2024 — 2027 (Expected)",
     degree: "Bachelor of Engineering with Honours — Software Engineering",
     institution: "Victoria University of Wellington",
     institutionUrl: "https://www.wgtn.ac.nz/",
