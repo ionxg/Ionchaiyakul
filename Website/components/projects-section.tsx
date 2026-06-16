@@ -51,7 +51,7 @@ const projects: Project[] = [
     liveUrl: "https://github.com/ionxg/telecom-intregration",
   },
   {
-    title: "Murder Mystery Game - Mechanic",
+    title: "Murder Mystery Game - Mechanic - 2025",
     category: "Games",
     description:
       "A web-based interactive murder mystery system designed for a club event. Players progress through 3 rounds, making choices in each round. After every choice, the server returns a response such as clues, consequences, or story updates, allowing the game to continue dynamically. The website is a core part of the event experience, since the game cannot run properly without it.",
@@ -60,7 +60,7 @@ const projects: Project[] = [
     liveUrl: "https://github.com/ionxg/Murder-mystery-machanic",
   },
   {
-    title: "Murder Mystery Game - Website",
+    title: "Murder Mystery Game - Website - 2025",
     category: "Games",
     description:
       "A website designed to present character details, background information, and the storyline for the murder mystery event. It helps players understand the setting, roles, and narrative before and during the game, making the overall experience more immersive and easier to follow.",

@@ -33,6 +33,13 @@ export function HeroSection() {
               <span className="text-sm uppercase tracking-widest">Experience</span>
             </a>
             <a
+              href="#education"
+              className="group flex items-center gap-4 text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <span className="h-px w-8 bg-muted-foreground group-hover:w-16 group-hover:bg-foreground transition-all" />
+              <span className="text-sm uppercase tracking-widest">Education</span>
+            </a>
+            <a
               href="#projects"
               className="group flex items-center gap-4 text-muted-foreground hover:text-foreground transition-colors"
             >
