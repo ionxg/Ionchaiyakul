@@ -10,6 +10,8 @@ interface Project {
   technologies: string[]
   githubUrl?: string
   liveUrl?: string
+  // Mark a project private to show a "Private" badge instead of repo/live links.
+  private?: boolean
 }
 
 const projects: Project[] = [
@@ -67,6 +69,14 @@ const projects: Project[] = [
     technologies: ["HTML"],
     githubUrl: "https://github.com/ionxg/Website-for-Murder-Mystery",
     liveUrl: "https://github.com/ionxg/Website-for-Murder-Mystery",
+  },
+  {
+    title: "Pet Overlay (Android)",
+    category: "Mobile",
+    description:
+      "An Android app that displays an interactive pet overlay floating on top of other apps, acting as a desktop-pet-style companion on the home screen and over other applications.",
+    technologies: ["Kotlin", "Android SDK", "Jetpack Compose"],
+    private: true,
   },
   {
     title: "Privacy-Preserving Machine Learning (Ongoing Research) | Self-Directed",
@@ -137,6 +147,11 @@ export function ProjectsSection() {
                   {project.title}
                 </h3>
                 <div className="flex items-center gap-3">
+                  {project.private && (
+                    <span className="px-2 py-0.5 text-xs font-medium rounded-full border border-border text-muted-foreground whitespace-nowrap">
+                      Private
+                    </span>
+                  )}
                   {hasLink(project.githubUrl) && (
                     <a
                       href={project.githubUrl}
