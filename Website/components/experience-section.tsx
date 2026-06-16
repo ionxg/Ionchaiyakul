@@ -91,7 +91,8 @@ export function ExperienceSection() {
                 <div className="space-y-4">
                   {/* Title & Company */}
                   <h3 className="text-lg font-medium flex items-center gap-2 group-hover:text-primary transition-colors">
-                    {exp.title} · {exp.company}
+                    {exp.title}
+                    {exp.company && ` · ${exp.company}`}
                     <ArrowUpRight className="w-4 h-4 opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all" />
                   </h3>
 

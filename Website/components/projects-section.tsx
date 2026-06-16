@@ -29,7 +29,8 @@ const projects: Project[] = [
       "Full-stack engagement platform that uses QR code scanning to track participants. It includes login, member-only access, points collection, scan history, and an admin dashboard for QR code and points management.",
     technologies: ["Next.js", "TypeScript", "Supabase", "PostgreSQL", "Vercel", "QR Code System"],
     githubUrl: "https://github.com/ionxg/point",
-    liveUrl: "https://point",
+    // TODO: replace with the real deployed URL; "#" hides the live link for now.
+    liveUrl: "#",
   },
   {
     title: "Security Log Analyzer",
@@ -77,6 +78,10 @@ const projects: Project[] = [
     liveUrl: "#",
   },
 ]
+
+// Treat empty values and the "#" placeholder as "no link" so we don't render
+// dead anchors that go nowhere.
+const hasLink = (url?: string) => Boolean(url && url !== "#")
 
 const ALL = "All"
 // Category filters are derived from the project data, so adding a project with a
@@ -132,7 +137,7 @@ export function ProjectsSection() {
                   {project.title}
                 </h3>
                 <div className="flex items-center gap-3">
-                  {project.githubUrl && (
+                  {hasLink(project.githubUrl) && (
                     <a
                       href={project.githubUrl}
                       target="_blank"
@@ -143,7 +148,7 @@ export function ProjectsSection() {
                       <Github className="w-5 h-5" />
                     </a>
                   )}
-                  {project.liveUrl && (
+                  {hasLink(project.liveUrl) && (
                     <a
                       href={project.liveUrl}
                       target="_blank"
