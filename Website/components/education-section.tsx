@@ -15,7 +15,7 @@ const education: EducationItem[] = [
     institution: "Victoria University of Wellington",
     institutionUrl: "https://www.wgtn.ac.nz/",
     description:
-      "Penultimate-year Software Engineering student focusing on software development, cybersecurity, and AI.",
+      "Penultimate-year Software Engineering student",
     coursework: [
       "Data Structures & Algorithms",
       "Operating Systems",
