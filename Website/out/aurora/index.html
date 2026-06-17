@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aurora — Creative Studio</title>
+  <meta name="description" content="Aurora is a creative studio crafting beautiful digital experiences." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Navigation -->
+  <header class="nav" id="top">
+    <div class="container nav__inner">
+      <a href="#top" class="logo">aurora<span>.</span></a>
+      <nav class="nav__links" id="navLinks">
+        <a href="#work">Work</a>
+        <a href="#services">Services</a>
+        <a href="#about">About</a>
+        <a href="#contact" class="btn btn--ghost">Let's talk</a>
+      </nav>
+      <button class="nav__toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero__inner">
+      <p class="eyebrow reveal">Creative studio · Est. 2021</p>
+      <h1 class="hero__title reveal">
+        We design digital<br />experiences that <span class="grad">glow</span>.
+      </h1>
+      <p class="hero__lead reveal">
+        Aurora is a small studio of designers and engineers building brands,
+        products, and interfaces people remember.
+      </p>
+      <div class="hero__cta reveal">
+        <a href="#work" class="btn btn--primary">View our work</a>
+        <a href="#contact" class="btn btn--ghost">Start a project</a>
+      </div>
+      <div class="hero__stats reveal">
+        <div><strong>120+</strong><span>Projects shipped</span></div>
+        <div><strong>40</strong><span>Happy clients</span></div>
+        <div><strong>9</strong><span>Design awards</span></div>
+      </div>
+    </div>
+    <div class="hero__glow" aria-hidden="true"></div>
+  </section>
+
+  <!-- Work -->
+  <section class="section" id="work">
+    <div class="container">
+      <div class="section__head">
+        <h2 class="section__title">Selected work</h2>
+        <p class="section__sub">A few projects we're proud of.</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <div class="card__media" style="--c1:#ff9a8b;--c2:#ff6a88"></div>
+          <div class="card__body">
+            <span class="tag">Branding</span>
+            <h3>Lumen Cosmetics</h3>
+            <p>A radiant identity for a clean-beauty brand.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card__media" style="--c1:#a18cd1;--c2:#6a5af9"></div>
+          <div class="card__body">
+            <span class="tag">Web App</span>
+            <h3>Northwind Dashboard</h3>
+            <p>Analytics that make complex data feel simple.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card__media" style="--c1:#43e97b;--c2:#38f9d7"></div>
+          <div class="card__body">
+            <span class="tag">Mobile</span>
+            <h3>Tide Finance</h3>
+            <p>Banking reimagined for a calmer money life.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card__media" style="--c1:#fa709a;--c2:#fee140"></div>
+          <div class="card__body">
+            <span class="tag">E-commerce</span>
+            <h3>Forge Apparel</h3>
+            <p>A bold storefront built to convert.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="section section--alt" id="services">
+    <div class="container">
+      <div class="section__head">
+        <h2 class="section__title">What we do</h2>
+        <p class="section__sub">End-to-end, from idea to launch.</p>
+      </div>
+      <div class="services">
+        <div class="service">
+          <div class="service__icon">✦</div>
+          <h3>Brand &amp; Identity</h3>
+          <p>Logos, systems, and guidelines that give your brand a voice.</p>
+        </div>
+        <div class="service">
+          <div class="service__icon">◈</div>
+          <h3>Product Design</h3>
+          <p>Research-led UX and pixel-perfect UI for web and mobile.</p>
+        </div>
+        <div class="service">
+          <div class="service__icon">⬡</div>
+          <h3>Development</h3>
+          <p>Fast, accessible front-ends built with modern tooling.</p>
+        </div>
+        <div class="service">
+          <div class="service__icon">✺</div>
+          <h3>Motion</h3>
+          <p>Micro-interactions and animation that bring it all to life.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="section" id="about">
+    <div class="container about">
+      <div class="about__text">
+        <h2 class="section__title">A studio built on craft</h2>
+        <p>
+          We believe great design is invisible — it just feels right. Our team
+          partners closely with founders and product teams to turn ambitious
+          ideas into experiences that look stunning and work flawlessly.
+        </p>
+        <p>
+          No bloated process, no jargon. Just thoughtful work, shipped on time.
+        </p>
+        <a href="#contact" class="btn btn--primary">Work with us</a>
+      </div>
+      <ul class="about__list">
+        <li><strong>Discovery</strong>We learn your goals, users, and constraints.</li>
+        <li><strong>Design</strong>We explore, refine, and prototype fast.</li>
+        <li><strong>Build</strong>We develop and ship production-ready work.</li>
+        <li><strong>Grow</strong>We measure, iterate, and improve over time.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="section section--alt" id="contact">
+    <div class="container contact">
+      <h2 class="section__title">Let's build something great</h2>
+      <p class="section__sub">Tell us about your project and we'll get back within 24 hours.</p>
+      <form class="contact__form" onsubmit="return handleSubmit(event)">
+        <div class="field">
+          <input type="text" id="name" required placeholder=" " />
+          <label for="name">Your name</label>
+        </div>
+        <div class="field">
+          <input type="email" id="email" required placeholder=" " />
+          <label for="email">Email address</label>
+        </div>
+        <div class="field field--full">
+          <textarea id="message" rows="4" required placeholder=" "></textarea>
+          <label for="message">Tell us about your project</label>
+        </div>
+        <button type="submit" class="btn btn--primary">Send message</button>
+        <p class="contact__note" id="formNote" hidden>Thanks! This is a demo form — no message was actually sent.</p>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <a href="#top" class="logo">aurora<span>.</span></a>
+      <p>© <span id="year"></span> Aurora Studio. Crafted with care.</p>
+      <div class="footer__social">
+        <a href="#" aria-label="Twitter">Tw</a>
+        <a href="#" aria-label="Instagram">In</a>
+        <a href="#" aria-label="Dribbble">Dr</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

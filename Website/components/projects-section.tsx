@@ -15,6 +15,14 @@ interface Project {
 
 const projects: Project[] = [
   {
+    title: "Aurora — Studio Landing Page",
+    category: "Web Development",
+    description:
+      "A landing page concept for a fictional creative studio, built to practice responsive layout and lightweight animation. Hand-coded with no frameworks — an animated gradient hero, scroll-triggered reveals, a mobile menu, and a floating-label contact form.",
+    technologies: ["HTML", "CSS", "JavaScript", "Responsive Design"],
+    liveUrl: "https://ionxg.github.io/WebDesign/#",
+  },
+  {
     title: "Portfolio Website",
     category: "Web Development",
     description:
