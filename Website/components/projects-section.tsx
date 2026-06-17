@@ -79,6 +79,23 @@ const projects: Project[] = [
     private: true,
   },
   {
+    title: "ML Network Intrusion Detection System",
+    category: "Cybersecurity",
+    description:
+      "A machine-learning intrusion detection system that classifies network connections as normal or attack. Trained on the NSL-KDD dataset with a scikit-learn pipeline (Random Forest baseline) and served through a FastAPI inference API, it sits at the intersection of network security and applied AI.",
+    technologies: ["Python", "scikit-learn", "FastAPI", "pandas", "Machine Learning", "NSL-KDD"],
+    private: true,
+  },
+  {
+    title: "Rosy — Location-Based Map",
+    category: "Web Development",
+    description:
+      "A web and mobile location-based map for local tourism and discovery — a browser-scale take on Pokémon GO. It centers an interactive 3D map on your real GPS position, shows a live avatar that other connected players see in real time over Socket.io, and surfaces tourism points of interest and sponsored businesses as tappable markers. Packaged as an installable Android app with a Capacitor shell.",
+    technologies: ["MapLibre GL JS", "Node.js", "Socket.io", "Express", "Capacitor", "Geolocation API"],
+    githubUrl: "https://github.com/ionxg/rosy",
+    liveUrl: "https://rosy-server.onrender.com",
+  },
+  {
     title: "Privacy-Preserving Machine Learning (Ongoing Research) | Self-Directed",
     category: "AI & Research",
     description:
