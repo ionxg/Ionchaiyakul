@@ -5,12 +5,11 @@ import { ArrowUpRight, Github } from "lucide-react"
 
 interface Project {
   title: string
-  category: string
+  category: string | string[]
   description: string
   technologies: string[]
   githubUrl?: string
   liveUrl?: string
-  // Mark a project private to show a "Private" badge instead of repo/live links.
   private?: boolean
 }
 
@@ -31,7 +30,6 @@ const projects: Project[] = [
       "Full-stack engagement platform that uses QR code scanning to track participants. It includes login, member-only access, points collection, scan history, and an admin dashboard for QR code and points management.",
     technologies: ["Next.js", "TypeScript", "Supabase", "PostgreSQL", "Vercel", "QR Code System"],
     githubUrl: "https://github.com/ionxg/point",
-    // TODO: replace with the real deployed URL; "#" hides the live link for now.
     liveUrl: "#",
   },
   {
@@ -88,7 +86,7 @@ const projects: Project[] = [
   },
   {
     title: "Rosy — Location-Based Map",
-    category: "Web Development",
+    category: ["Web Development", "Mobile"],
     description:
       "A web and mobile location-based map for local tourism and discovery — a browser-scale take on Pokémon GO. It centers an interactive 3D map on your real GPS position, shows a live avatar that other connected players see in real time over Socket.io, and surfaces tourism points of interest and sponsored businesses as tappable markers. Packaged as an installable Android app with a Capacitor shell.",
     technologies: ["MapLibre GL JS", "Node.js", "Socket.io", "Express", "Capacitor", "Geolocation API"],
@@ -111,9 +109,13 @@ const projects: Project[] = [
 const hasLink = (url?: string) => Boolean(url && url !== "#")
 
 const ALL = "All"
+// Normalize a project's category into an array so single- and multi-category
+// projects are handled the same way everywhere.
+const categoriesOf = (project: Project) =>
+  Array.isArray(project.category) ? project.category : [project.category]
 // Category filters are derived from the project data, so adding a project with a
 // new category automatically adds its filter button.
-const categories = [ALL, ...Array.from(new Set(projects.map((p) => p.category)))]
+const categories = [ALL, ...Array.from(new Set(projects.flatMap(categoriesOf)))]
 
 export function ProjectsSection() {
   const [activeCategory, setActiveCategory] = useState(ALL)
@@ -121,7 +123,7 @@ export function ProjectsSection() {
   const visibleProjects =
     activeCategory === ALL
       ? projects
-      : projects.filter((project) => project.category === activeCategory)
+      : projects.filter((project) => categoriesOf(project).includes(activeCategory))
 
   return (
     <section id="projects" className="px-6 md:px-12 lg:px-24 py-20">
@@ -195,7 +197,7 @@ export function ProjectsSection() {
               </div>
 
               {/* Category */}
-              <p className="text-xs font-mono text-primary mb-3">{project.category}</p>
+              <p className="text-xs font-mono text-primary mb-3">{categoriesOf(project).join(" · ")}</p>
 
               {/* Description */}
               <p className="text-muted-foreground text-sm leading-relaxed mb-4">
