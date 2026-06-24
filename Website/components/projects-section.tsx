@@ -85,6 +85,14 @@ const projects: Project[] = [
     private: true,
   },
   {
+    title: "Daily Tracking (Android)",
+    category: "Mobile",
+    description:
+      "A fully offline Android app for planning and tracking daily activities. Schedule one-off tasks and repeating daily habits with start/end timeframes, then tick them off — completion is stored per day, so habits reset each morning while one-off tasks stay done. Everything lives in a local Room database (no account or internet required), with local reminder notifications and a profile screen surfacing streaks, completion stats, and a history log.",
+    technologies: ["Kotlin", "Jetpack Compose", "Room", "Material 3", "AlarmManager", "Android SDK"],
+    private: true,
+  },
+  {
     title: "ML Network Intrusion Detection System",
     category: "Cybersecurity",
     description:
