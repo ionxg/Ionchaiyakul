@@ -18,7 +18,7 @@ const projects: Project[] = [
     title: "Aurora — Studio Landing Page",
     category: "Web Development",
     description:
-      "A landing page concept for a fictional creative studio, built to practice responsive layout and lightweight animation. Hand-coded with no frameworks — an animated gradient hero, scroll-triggered reveals, a mobile menu, and a floating-label contact form.",
+      "A framework-free landing page for a fictional creative studio — an animated gradient hero, scroll-triggered reveals, a mobile menu, and a floating-label contact form.",
     technologies: ["HTML", "CSS", "JavaScript", "Responsive Design"],
     liveUrl: "https://ionxg.github.io/WebDesign/#",
   },
@@ -35,7 +35,7 @@ const projects: Project[] = [
     title: "Point System",
     category: "Web Development",
     description:
-      "Full-stack engagement platform that uses QR code scanning to track participants. It includes login, member-only access, points collection, scan history, and an admin dashboard for QR code and points management.",
+      "A full-stack engagement platform that tracks participants via QR scanning — login, member-only access, points collection, scan history, and an admin dashboard.",
     technologies: ["Next.js", "TypeScript", "Supabase", "PostgreSQL", "Vercel", "QR Code System"],
     githubUrl: "https://github.com/ionxg/point",
     liveUrl: "#",
@@ -44,7 +44,7 @@ const projects: Project[] = [
     title: "Security Log Analyzer",
     category: "Cybersecurity",
     description:
-      "Python-based security log analyzer that reads Linux auth logs and detects suspicious SSH login activity. It tracks failed and successful logins, highlights suspicious IPs, identifies targeted usernames, and flags possible brute-force attacks.",
+      "A Python tool that parses Linux auth logs to detect suspicious SSH activity — flagging brute-force attempts, suspicious IPs, and targeted usernames.",
     technologies: ["Python", "Regular Expressions", "Log Analysis", "Cybersecurity Fundamentals", "SSH"],
     githubUrl: "https://github.com/ionxg/security-log-analyzer",
     liveUrl: "https://github.com/ionxg/security-log-analyzer",
@@ -53,7 +53,7 @@ const projects: Project[] = [
     title: "Telecom Integration Project",
     category: "Backend & Systems",
     description:
-      "Built a telecom service integration simulator to model subscriber provisioning, session management, and VoLTE-style call setup. The project focuses on REST API communication, multi-service integration, and testing end-to-end telecom workflows.",
+      "A telecom service integration simulator modeling subscriber provisioning, session management, and VoLTE-style call setup over REST APIs and multi-service workflows.",
     technologies: ["Python", "FastAPI", "Docker", "REST API", "Postman"],
     githubUrl: "https://github.com/ionxg/telecom-intregration",
     liveUrl: "https://github.com/ionxg/telecom-intregration",
@@ -62,7 +62,7 @@ const projects: Project[] = [
     title: "Murder Mystery Game - Mechanic - 2025",
     category: "Games",
     description:
-      "A web-based interactive murder mystery system designed for a club event. Players progress through 3 rounds, making choices in each round. After every choice, the server returns a response such as clues, consequences, or story updates, allowing the game to continue dynamically. The website is a core part of the event experience, since the game cannot run properly without it.",
+      "A web-based murder mystery engine for a club event — players move through three rounds of choices, with the server returning clues and consequences to drive the story dynamically.",
     technologies: ["Javascript", "CSS", "HTML"],
     githubUrl: "https://github.com/ionxg/Murder-mystery-machanic",
     liveUrl: "https://github.com/ionxg/Murder-mystery-machanic",
@@ -71,7 +71,7 @@ const projects: Project[] = [
     title: "Murder Mystery Game - Website - 2025",
     category: "Games",
     description:
-      "A website designed to present character details, background information, and the storyline for the murder mystery event. It helps players understand the setting, roles, and narrative before and during the game, making the overall experience more immersive and easier to follow.",
+      "A companion site presenting characters, backstory, and the storyline for the murder mystery event, helping players follow the narrative before and during play.",
     technologies: ["HTML"],
     githubUrl: "https://github.com/ionxg/Website-for-Murder-Mystery",
     liveUrl: "https://github.com/ionxg/Website-for-Murder-Mystery",
@@ -80,7 +80,7 @@ const projects: Project[] = [
     title: "Pet Overlay (Android)",
     category: "Mobile",
     description:
-      "An Android app that displays an interactive pet overlay floating on top of other apps, acting as a desktop-pet-style companion on the home screen and over other applications.",
+      "An Android app that floats an interactive pet on top of other apps — a desktop-pet-style companion for your home screen.",
     technologies: ["Kotlin", "Android SDK", "Jetpack Compose"],
     private: true,
   },
@@ -88,7 +88,7 @@ const projects: Project[] = [
     title: "Daily Tracking (Android)",
     category: "Mobile",
     description:
-      "A fully offline Android app for planning and tracking daily activities. Schedule one-off tasks and repeating daily habits with start/end timeframes, then tick them off — completion is stored per day, so habits reset each morning while one-off tasks stay done. Everything lives in a local Room database (no account or internet required), with local reminder notifications and a profile screen surfacing streaks, completion stats, and a history log.",
+      "A fully offline Android activity tracker for one-off tasks and daily habits — set timeframes, tick items off per day, and follow streaks, stats, and history. Backed by a local Room database with reminder notifications.",
     technologies: ["Kotlin", "Jetpack Compose", "Room", "Material 3", "AlarmManager", "Android SDK"],
     private: true,
   },
@@ -96,7 +96,7 @@ const projects: Project[] = [
     title: "ML Network Intrusion Detection System",
     category: "Cybersecurity",
     description:
-      "A machine-learning intrusion detection system that classifies network connections as normal or attack. Trained on the NSL-KDD dataset with a scikit-learn pipeline (Random Forest baseline) and served through a FastAPI inference API, it sits at the intersection of network security and applied AI.",
+      "A machine-learning intrusion detection system that classifies network connections as normal or attack — a scikit-learn Random Forest trained on NSL-KDD, served via a FastAPI inference API.",
     technologies: ["Python", "scikit-learn", "FastAPI", "pandas", "Machine Learning", "NSL-KDD"],
     private: true,
   },
@@ -104,7 +104,7 @@ const projects: Project[] = [
     title: "Rosy — Location-Based Map",
     category: ["Web Development", "Mobile"],
     description:
-      "A web and mobile location-based map for local tourism and discovery — a browser-scale take on Pokémon GO. It centers an interactive 3D map on your real GPS position, shows a live avatar that other connected players see in real time over Socket.io, and surfaces tourism points of interest and sponsored businesses as tappable markers. Packaged as an installable Android app with a Capacitor shell.",
+      "A location-based web and mobile map for local tourism — a browser-scale take on Pokémon GO, with a live GPS avatar shared in real time over Socket.io and tappable points of interest. Shipped as an Android app via Capacitor.",
     technologies: ["MapLibre GL JS", "Node.js", "Socket.io", "Express", "Capacitor", "Geolocation API"],
     githubUrl: "https://github.com/ionxg/rosy",
     liveUrl: "https://rosy-server.onrender.com",
