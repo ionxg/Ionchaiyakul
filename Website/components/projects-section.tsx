@@ -90,7 +90,8 @@ const projects: Project[] = [
     description:
       "A fully offline Android activity tracker for one-off tasks and daily habits — set timeframes, tick items off per day, and follow streaks, stats, and history. Backed by a local Room database with reminder notifications.",
     technologies: ["Kotlin", "Jetpack Compose", "Room", "Material 3", "AlarmManager", "Android SDK"],
-    private: true,
+    githubUrl: "https://github.com/ionxg/task-tracking",
+    liveUrl: "https://github.com/ionxg/task-tracking",
   },
   {
     title: "ML Network Intrusion Detection System",
