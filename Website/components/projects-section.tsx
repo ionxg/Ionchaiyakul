@@ -77,6 +77,15 @@ const projects: Project[] = [
     liveUrl: "https://github.com/ionxg/Website-for-Murder-Mystery",
   },
   {
+    title: "Murder Mystery Game - Engine - 2026",
+    category: "Games",
+    description:
+      "A fully offline, local-network web app for running a 3-day in-person 'find the culprit' event — teams join from their phones over WiFi to vote on suspects, unlock code-locked video clips, scan QR info pages, and ask daily hints, all driven by an admin dashboard with a hidden live scoreboard.",
+    technologies: ["Node.js", "Express", "EJS", "SQLite", "QR Code System"],
+    githubUrl: "https://github.com/ionxg/murder-mystery-2026",
+    liveUrl: "https://github.com/ionxg/murder-mystery-2026",
+  },
+  {
     title: "Pet Overlay (Android)",
     category: "Mobile",
     description:
