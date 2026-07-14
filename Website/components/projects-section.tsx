@@ -32,7 +32,7 @@ const projects: Project[] = [
     liveUrl: "#",
   },
   {
-    title: "Point System",
+    title: "Tracking System",
     category: "Web Development",
     description:
       "A full-stack engagement platform that tracks participants via QR scanning — login, member-only access, points collection, scan history, and an admin dashboard.",
