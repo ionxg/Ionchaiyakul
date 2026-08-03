@@ -10,10 +10,12 @@ This portfolio showcases my background, projects, skills, and experience as a So
 
 ## Features
 - Responsive portfolio website
-- Projects section
-- Skills section
-- Experience section
-- Clean modern UI
+- Sticky navigation with scroll-spy and a mobile menu
+- Light / dark theme toggle (remembered between visits, no flash on load)
+- Scroll-reveal animations, respecting `prefers-reduced-motion`
+- An interactive companion that walks along the page and reacts to what you're reading
+- Filterable projects section
+- Skills, experience, and education sections
 - Deployed with GitHub Pages
 
 ## Tech Stack

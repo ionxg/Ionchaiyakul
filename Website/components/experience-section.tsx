@@ -1,4 +1,6 @@
 import { ArrowUpRight } from "lucide-react"
+import { Reveal } from "@/components/reveal"
+import { SectionHeading } from "@/components/section-heading"
 
 interface ExperienceItem {
   period: string
@@ -50,7 +52,6 @@ const experiences: ExperienceItem[] = [
     period: "2025",
     title: "3rd Place - VUW Hackathon 2025",
     company: "",
-    companyUrl: "https://www.wgtn.ac.nz/",
     description:
       "Collaborated with a team to develop an innovative solution during the VUW Hackathon 2025, demonstrating strong problem-solving skills and creativity in a competitive environment.",
     technologies: ["React", "Node.js", "Git", "Docker"],
@@ -63,60 +64,77 @@ const experiences: ExperienceItem[] = [
     description:
       "Support sponsorship and partnership efforts for club initiatives and cultural events, helping strengthen community engagement and event success.",
     technologies: ["Sponsorship", "Communication", "Event Support", "Networking", "Teamwork"],
-  }
+  },
 ]
 
 export function ExperienceSection() {
   return (
-    <section id="experience" className="px-6 md:px-12 lg:px-24 py-20">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-sm uppercase tracking-widest text-primary mb-12 font-medium">
-          Experience
-        </h2>
+    <section id="experience" className="px-6 py-24 md:px-12 lg:px-24">
+      <div className="mx-auto max-w-6xl">
+        <SectionHeading label="Experience" title="Where I've been putting the hours" />
 
-        <div className="space-y-12">
-          {experiences.map((exp, index) => (
-            <a
-              key={index}
-              href={exp.companyUrl}
-              className="group block p-6 -mx-6 rounded-lg hover:bg-card transition-colors"
-            >
-              <div className="grid md:grid-cols-[200px_1fr] gap-4">
-                {/* Period */}
-                <p className="text-sm text-muted-foreground font-mono">
-                  {exp.period}
-                </p>
+        {/* Timeline rail — the vertical line and dots line up with each entry. */}
+        <ol className="relative space-y-2 border-l border-border pl-6 md:pl-8">
+          {experiences.map((exp, index) => {
+            const content = (
+              <>
+                <span
+                  aria-hidden="true"
+                  className="absolute -left-[calc(1.5rem+4.5px)] top-8 h-2 w-2 rounded-full bg-border ring-4 ring-background transition-colors group-hover:bg-primary md:-left-[calc(2rem+4.5px)]"
+                />
+                <div className="grid gap-4 md:grid-cols-[170px_1fr]">
+                  <p className="font-mono text-sm text-muted-foreground">{exp.period}</p>
 
-                {/* Content */}
-                <div className="space-y-4">
-                  {/* Title & Company */}
-                  <h3 className="text-lg font-medium flex items-center gap-2 group-hover:text-primary transition-colors">
-                    {exp.title}
-                    {exp.company && ` · ${exp.company}`}
-                    <ArrowUpRight className="w-4 h-4 opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all" />
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-muted-foreground leading-relaxed">
-                    {exp.description}
-                  </p>
-
-                  {/* Technologies */}
-                  <div className="flex flex-wrap gap-2">
-                    {exp.technologies.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full"
-                      >
-                        {tech}
+                  <div className="space-y-3">
+                    <h3 className="flex flex-wrap items-center gap-x-2 text-lg font-medium transition-colors group-hover:text-primary">
+                      <span>
+                        {exp.title}
+                        {exp.company && ` · ${exp.company}`}
                       </span>
-                    ))}
+                      {exp.companyUrl && (
+                        <ArrowUpRight className="h-4 w-4 shrink-0 -translate-y-1 translate-x-1 opacity-0 transition-all group-hover:translate-x-0 group-hover:translate-y-0 group-hover:opacity-100" />
+                      )}
+                    </h3>
+
+                    <p className="leading-relaxed text-muted-foreground">{exp.description}</p>
+
+                    <div className="flex flex-wrap gap-2">
+                      {exp.technologies.map((tech) => (
+                        <span
+                          key={tech}
+                          className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </a>
-          ))}
-        </div>
+              </>
+            )
+
+            return (
+              <Reveal as="li" key={`${exp.title}-${exp.period}`} delay={index * 60}>
+                {/* Only entries with a real destination become links — the
+                    hackathon placing isn't somewhere you can click through to. */}
+                {exp.companyUrl ? (
+                  <a
+                    href={exp.companyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative block rounded-lg p-5 transition-colors hover:bg-card"
+                  >
+                    {content}
+                  </a>
+                ) : (
+                  <div className="group relative rounded-lg p-5 transition-colors hover:bg-card">
+                    {content}
+                  </div>
+                )}
+              </Reveal>
+            )
+          })}
+        </ol>
       </div>
     </section>
   )

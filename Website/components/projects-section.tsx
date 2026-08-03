@@ -1,7 +1,9 @@
 "use client"
 
 import { useState } from "react"
-import { ArrowUpRight, Github } from "lucide-react"
+import { ArrowUpRight, Github, Lock } from "lucide-react"
+import { Reveal } from "@/components/reveal"
+import { SectionHeading } from "@/components/section-heading"
 
 interface Project {
   title: string
@@ -143,6 +145,11 @@ const categoriesOf = (project: Project) =>
 // new category automatically adds its filter button.
 const categories = [ALL, ...Array.from(new Set(projects.flatMap(categoriesOf)))]
 
+const countFor = (category: string) =>
+  category === ALL
+    ? projects.length
+    : projects.filter((project) => categoriesOf(project).includes(category)).length
+
 export function ProjectsSection() {
   const [activeCategory, setActiveCategory] = useState(ALL)
 
@@ -152,14 +159,12 @@ export function ProjectsSection() {
       : projects.filter((project) => categoriesOf(project).includes(activeCategory))
 
   return (
-    <section id="projects" className="px-6 md:px-12 lg:px-24 py-20">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-sm uppercase tracking-widest text-primary mb-12 font-medium">
-          Projects
-        </h2>
+    <section id="projects" className="px-6 py-24 md:px-12 lg:px-24">
+      <div className="mx-auto max-w-6xl">
+        <SectionHeading label="Projects" title="Things I've built" />
 
         {/* Category filters */}
-        <div className="flex flex-wrap gap-2 mb-12">
+        <Reveal className="mb-10 flex flex-wrap items-center gap-2">
           {categories.map((category) => {
             const isActive = category === activeCategory
             return (
@@ -168,32 +173,44 @@ export function ProjectsSection() {
                 type="button"
                 onClick={() => setActiveCategory(category)}
                 aria-pressed={isActive}
-                className={`px-4 py-1.5 text-xs font-medium rounded-full border transition-colors ${
+                className={`rounded-full border px-4 py-1.5 text-xs font-medium transition-colors ${
                   isActive
-                    ? "bg-primary text-primary-foreground border-primary"
+                    ? "border-primary bg-primary text-primary-foreground"
                     : "border-border text-muted-foreground hover:border-primary/50 hover:text-foreground"
                 }`}
               >
                 {category}
+                <span className={isActive ? "ml-1.5 opacity-70" : "ml-1.5 opacity-50"}>
+                  {countFor(category)}
+                </span>
               </button>
             )
           })}
-        </div>
+        </Reveal>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <Reveal className="grid gap-5 md:grid-cols-2">
           {visibleProjects.map((project) => (
-            <div
+            <article
               key={project.title}
-              className="group p-6 rounded-lg bg-card border border-border hover:border-primary/50 transition-colors"
+              className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5"
             >
-              {/* Header */}
-              <div className="flex items-start justify-between mb-4">
-                <h3 className="text-lg font-medium group-hover:text-primary transition-colors">
+              {/* Accent bar that wipes in on hover */}
+              <span
+                aria-hidden="true"
+                className="absolute inset-x-0 top-0 h-0.5 origin-left scale-x-0 bg-primary transition-transform duration-300 group-hover:scale-x-100"
+              />
+
+              <div className="mb-3 flex items-start justify-between gap-4">
+                <h3 className="text-base font-medium leading-snug transition-colors group-hover:text-primary">
                   {project.title}
                 </h3>
-                <div className="flex items-center gap-3">
+                <div className="flex shrink-0 items-center gap-3">
                   {project.private && (
-                    <span className="px-2 py-0.5 text-xs font-medium rounded-full border border-border text-muted-foreground whitespace-nowrap">
+                    <span
+                      title="Source not public"
+                      className="inline-flex items-center gap-1 rounded-full border border-border px-2 py-0.5 text-xs font-medium text-muted-foreground"
+                    >
+                      <Lock className="h-3 w-3" />
                       Private
                     </span>
                   )}
@@ -202,10 +219,10 @@ export function ProjectsSection() {
                       href={project.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-foreground transition-colors"
+                      className="text-muted-foreground transition-colors hover:text-primary"
                       aria-label={`View ${project.title} on GitHub`}
                     >
-                      <Github className="w-5 h-5" />
+                      <Github className="h-5 w-5" />
                     </a>
                   )}
                   {hasLink(project.liveUrl) && (
@@ -213,37 +230,36 @@ export function ProjectsSection() {
                       href={project.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-muted-foreground hover:text-foreground transition-colors"
+                      className="text-muted-foreground transition-colors hover:text-primary"
                       aria-label={`View ${project.title} live`}
                     >
-                      <ArrowUpRight className="w-5 h-5" />
+                      <ArrowUpRight className="h-5 w-5" />
                     </a>
                   )}
                 </div>
               </div>
 
-              {/* Category */}
-              <p className="text-xs font-mono text-primary mb-3">{categoriesOf(project).join(" · ")}</p>
+              <p className="mb-4 font-mono text-xs text-primary">
+                {categoriesOf(project).join(" · ")}
+              </p>
 
-              {/* Description */}
-              <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+              <p className="mb-5 flex-1 text-sm leading-relaxed text-muted-foreground">
                 {project.description}
               </p>
 
-              {/* Technologies */}
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-1.5">
                 {project.technologies.map((tech) => (
                   <span
                     key={tech}
-                    className="text-xs font-mono text-muted-foreground"
+                    className="rounded-md bg-muted px-2 py-1 font-mono text-[11px] text-muted-foreground"
                   >
                     {tech}
                   </span>
                 ))}
               </div>
-            </div>
+            </article>
           ))}
-        </div>
+        </Reveal>
       </div>
     </section>
   )

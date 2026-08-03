@@ -1,102 +1,107 @@
-import { Github, Linkedin, Mail } from "lucide-react"
+import { ArrowDown, Github, Linkedin, Mail, MapPin } from "lucide-react"
+import { Reveal } from "@/components/reveal"
+
+const socials = [
+  { href: "https://github.com/ionxg", label: "GitHub", Icon: Github },
+  { href: "https://www.linkedin.com/in/ionchaiyakul", label: "LinkedIn", Icon: Linkedin },
+  { href: "mailto:chaiyawach@myvuw.ac.nz", label: "Email", Icon: Mail },
+]
 
 export function HeroSection() {
   return (
-    <section className="min-h-screen flex flex-col justify-center px-6 md:px-12 lg:px-24 py-20">
-      <div className="max-w-6xl mx-auto w-full grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-        {/* Left Column - Introduction */}
-        <div className="space-y-6">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-balance">
-            Ion Chaiyakul
-          </h1>
-          <p className="text-xl md:text-2xl text-primary font-medium">
-            Software Engineering Student
-          </p>
-          <p className="text-muted-foreground leading-relaxed max-w-md">
-            This is my personal website where I showcase my projects and experience.
+    <section
+      id="top"
+      className="hero-glow relative isolate flex min-h-screen flex-col justify-center px-6 py-28 md:px-12 lg:px-24"
+    >
+      {/* Faint grid texture, masked so it fades out before the copy starts. */}
+      <div className="grid-backdrop pointer-events-none absolute inset-0 -z-10" />
+
+      <div className="mx-auto grid w-full max-w-6xl items-center gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
+        {/* Left column — who, where, how to reach me */}
+        <Reveal className="space-y-6">
+          <p className="inline-flex items-center gap-2 rounded-full border border-border bg-card/60 px-3 py-1 text-xs text-muted-foreground">
+            <MapPin className="h-3 w-3 text-primary" />
+            Wellington, New Zealand
           </p>
 
-          {/* Navigation */}
-          <nav className="pt-8 space-y-4">
-            <a
-              href="#about"
-              className="group flex items-center gap-4 text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <span className="h-px w-8 bg-muted-foreground group-hover:w-16 group-hover:bg-foreground transition-all" />
-              <span className="text-sm uppercase tracking-widest">About</span>
-            </a>
-            <a
-              href="#experience"
-              className="group flex items-center gap-4 text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <span className="h-px w-8 bg-muted-foreground group-hover:w-16 group-hover:bg-foreground transition-all" />
-              <span className="text-sm uppercase tracking-widest">Experience</span>
-            </a>
-            <a
-              href="#education"
-              className="group flex items-center gap-4 text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <span className="h-px w-8 bg-muted-foreground group-hover:w-16 group-hover:bg-foreground transition-all" />
-              <span className="text-sm uppercase tracking-widest">Education</span>
-            </a>
+          <div className="space-y-3">
+            <h1 className="text-balance text-5xl font-bold tracking-tight md:text-6xl lg:text-7xl">
+              Ion Chaiyakul
+            </h1>
+            <p className="text-xl font-medium text-primary md:text-2xl">
+              Software Engineering Student
+            </p>
+          </div>
+
+          <p className="max-w-md leading-relaxed text-muted-foreground">
+            I build practical things — security tooling, web apps, and whatever a club
+            event needs by Friday.
+          </p>
+
+          <div className="flex flex-wrap items-center gap-3 pt-2">
             <a
               href="#projects"
-              className="group flex items-center gap-4 text-muted-foreground hover:text-foreground transition-colors"
+              className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
             >
-              <span className="h-px w-8 bg-muted-foreground group-hover:w-16 group-hover:bg-foreground transition-all" />
-              <span className="text-sm uppercase tracking-widest">Projects</span>
-            </a>
-            <a
-              href="#skills"
-              className="group flex items-center gap-4 text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <span className="h-px w-8 bg-muted-foreground group-hover:w-16 group-hover:bg-foreground transition-all" />
-              <span className="text-sm uppercase tracking-widest">Skills</span>
-            </a>
-          </nav>
-
-          {/* Social Links */}
-          <div className="flex items-center gap-6 pt-8">
-            <a
-              href="https://github.com/ionxg"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors"
-              aria-label="GitHub"
-            >
-              <Github className="w-6 h-6" />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/ionchaiyakul"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors"
-              aria-label="LinkedIn"
-            >
-              <Linkedin className="w-6 h-6" />
+              See my work
+              <ArrowDown className="h-4 w-4" />
             </a>
             <a
               href="mailto:chaiyawach@myvuw.ac.nz"
-              className="text-muted-foreground hover:text-foreground transition-colors"
-              aria-label="Email"
+              className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-medium transition-colors hover:border-primary/60 hover:text-primary"
             >
-              <Mail className="w-6 h-6" />
+              Get in touch
             </a>
           </div>
-        </div>
 
-        {/* Right Column - About Content */}
-        <div id="about" className="space-y-6 text-muted-foreground leading-relaxed">
+          <div className="flex items-center gap-5 pt-4">
+            {socials.map(({ href, label, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target={href.startsWith("mailto:") ? undefined : "_blank"}
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="text-muted-foreground transition-colors hover:-translate-y-0.5 hover:text-primary"
+              >
+                <Icon className="h-5 w-5" />
+              </a>
+            ))}
+          </div>
+        </Reveal>
+
+        {/* Right column — the actual introduction */}
+        <Reveal
+          id="about"
+          delay={120}
+          className="scroll-mt-24 space-y-5 leading-relaxed text-muted-foreground"
+        >
+          <p className="text-sm font-medium uppercase tracking-widest text-primary">About</p>
+
           <p>
-            {"I’m Ion, a penultimate year Software Engineering student at Victoria University of Wellington. I’m interested in software development, cybersecurity, and AI, and I enjoy building practical projects that solve real problems. I’m currently working as an academic tutor and developing my skills in web development, systems programming, and machine learning."}
+            I&rsquo;m Ion, a penultimate-year Software Engineering student at Victoria
+            University of Wellington. Most of what I build starts the same way: someone
+            I know has a problem, and the tool for it doesn&rsquo;t exist yet. That&rsquo;s
+            how a club event became an offline murder-mystery engine that a room full of
+            people ran off their phones, and how a sign-in sheet nobody wanted to maintain
+            became a QR attendance system.
           </p>
+
           <p>
-            {"Currently, I'm focused on building scalable web applications and learning new technologies. I am also doing research about how to train AI with encrpyted data which will provide many benefits including privacy, reliability, and security. "}
+            Security is the thread through most of it. I tutor cyber security at VUW, which
+            turns out to be the fastest way to find out what I only <em>thought</em> I
+            understood. Alongside that I&rsquo;m researching how to train neural networks on
+            data that stays encrypted end to end &mdash; privacy that doesn&rsquo;t cost you
+            a usable model.
           </p>
+
           <p>
-            {"When I'm not coding, you'll find me exploring new technologies, contributing to University Club activities, or improving my problem-solving skills through coding challenges."}
+            Away from the editor I&rsquo;m president of the Victoria Engineering Club and
+            treasurer of the Language Exchange Club, which mostly means I&rsquo;ve learned to
+            budget carefully, chase sponsors politely, and get a room full of students to
+            actually show up on a Tuesday.
           </p>
-        </div>
+        </Reveal>
       </div>
     </section>
   )

@@ -13,13 +13,20 @@ export const metadata: Metadata = {
   },
 }
 
+// Runs before first paint so the saved theme is applied without a flash of the
+// wrong colours. Falls back to the OS preference, then to dark.
+const themeScript = `(function(){try{var t=localStorage.getItem('ion-theme');if(!t){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}if(t==='dark'){document.documentElement.classList.add('dark')}}catch(e){document.documentElement.classList.add('dark')}})()`
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${geist.variable} ${geistMono.variable}`}>
+    <html lang="en" className={`${geist.variable} ${geistMono.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="font-sans antialiased">
         {children}
       </body>
