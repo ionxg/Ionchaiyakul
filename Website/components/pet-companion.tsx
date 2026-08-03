@@ -46,6 +46,8 @@ export function PetCompanion() {
 
   const [ready, setReady] = useState(false)
   const [dismissed, setDismissed] = useState(false)
+  // Still mode: the pet appears and responds, but never moves on its own.
+  const [reducedMotion, setReducedMotion] = useState(false)
   const [walking, setWalking] = useState(false)
   const [facingLeft, setFacingLeft] = useState(false)
   const [bubble, setBubble] = useState<string | null>(null)
@@ -62,8 +64,9 @@ export function PetCompanion() {
     bubbleTimerRef.current = window.setTimeout(() => setBubble(null), duration)
   }, [])
 
-  // Respect an earlier dismissal, and stay out of the way entirely for
-  // visitors who asked for reduced motion.
+  // A dismissal is the only thing that hides the pet outright. "Reduce motion"
+  // asks for no movement, not for the feature to disappear — so in that mode
+  // the pet still shows up and still talks, it just stays put.
   useEffect(() => {
     let hidden = false
     try {
@@ -71,18 +74,26 @@ export function PetCompanion() {
     } catch {
       // Storage unavailable — just show the pet.
     }
-    if (hidden || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (hidden) {
       setDismissed(true)
       return
     }
+    setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches)
     xRef.current = clampX(window.innerWidth * 0.18)
     targetRef.current = xRef.current
     setReady(true)
   }, [])
 
+  // Place the pet at its starting spot. In still mode this is the only time
+  // the transform is written; otherwise the walk loop takes over from here.
+  useEffect(() => {
+    if (!ready || !petRef.current) return
+    petRef.current.style.transform = `translate3d(${xRef.current}px, 0, 0)`
+  }, [ready])
+
   // Walk loop: ease toward the current target, flip to face the way we move.
   useEffect(() => {
-    if (!ready) return
+    if (!ready || reducedMotion) return
     let frame = 0
 
     const step = (now: number) => {
@@ -113,20 +124,22 @@ export function PetCompanion() {
       lastFrameRef.current = 0
       window.cancelAnimationFrame(frame)
     }
-  }, [ready])
+  }, [ready, reducedMotion])
 
   // Wander to a new spot every few seconds when left alone.
   useEffect(() => {
-    if (!ready) return
+    if (!ready || reducedMotion) return
     const wander = window.setInterval(() => {
       if (document.hidden) return
       targetRef.current = clampX(Math.random() * window.innerWidth)
     }, 5000)
     return () => window.clearInterval(wander)
-  }, [ready])
+  }, [ready, reducedMotion])
 
   // Come when called: the pet only notices the cursor near the bottom strip,
-  // so it doesn't chase the reader around the whole page.
+  // so it doesn't chase the reader around the whole page. Chasing is movement,
+  // so it's off in still mode — but the pet must still be kept on screen when
+  // the window is resized.
   useEffect(() => {
     if (!ready) return
     const onPointerMove = (event: PointerEvent) => {
@@ -137,14 +150,20 @@ export function PetCompanion() {
     const onResize = () => {
       xRef.current = clampX(xRef.current)
       targetRef.current = clampX(targetRef.current)
+      // Nothing else writes the transform in still mode, so do it here.
+      if (reducedMotion && petRef.current) {
+        petRef.current.style.transform = `translate3d(${xRef.current}px, 0, 0)`
+      }
     }
-    window.addEventListener("pointermove", onPointerMove, { passive: true })
+    if (!reducedMotion) {
+      window.addEventListener("pointermove", onPointerMove, { passive: true })
+    }
     window.addEventListener("resize", onResize)
     return () => {
       window.removeEventListener("pointermove", onPointerMove)
       window.removeEventListener("resize", onResize)
     }
-  }, [ready])
+  }, [ready, reducedMotion])
 
   // A one-time hello, so people know it's clickable.
   useEffect(() => {
