@@ -1,67 +1,291 @@
 "use client"
 
 import { useCallback, useEffect, useRef, useState } from "react"
+import Image from "next/image"
 import { PawPrint } from "lucide-react"
 import { useActiveSection } from "@/hooks/use-active-section"
 import { SECTIONS } from "@/components/site-nav"
 
-const PET_WIDTH = 56
-const EDGE_PADDING = 20
-const WALK_SPEED = 70 // px per second
-const ARRIVE_EPSILON = 3
-const DISMISS_KEY = "ion-pet-dismissed"
+// Imported rather than referenced by path: the site is served from a basePath
+// on GitHub Pages, and next/image does not prepend it to a plain src string.
+// Static imports resolve through the bundler, so they carry the prefix.
+import catJump from "@/assets/pets/cat/cat_jump.gif"
+import catPlaying from "@/assets/pets/cat/cat_playing.gif"
+import catRun from "@/assets/pets/cat/cat_run.gif"
+import catSit from "@/assets/pets/cat/cat_sit.gif"
+import catSleep from "@/assets/pets/cat/cat_sleep.gif"
 
-/** Things the pet says when you poke it, keyed by the section you're reading. */
-const SECTION_LINES: Record<string, string[]> = {
-  about: ["That's my human up there.", "He types a lot. I supervise.", "Ask him about encrypted ML. Bring snacks."],
-  experience: ["He says yes to a lot of committees.", "Treasurer AND president. Wild.", "Third place at a hackathon. I helped."],
-  education: ["Two years down, one to go.", "Cryptography homework smells like coffee.", "He revises out loud. I listen."],
-  projects: ["There's a lot down here. Scroll on.", "One of these is an app about me, actually.", "Filter the buttons up top — I'll wait."],
-  skills: ["I only know 'sit'.", "Kotlin? Never heard of her.", "He forgot to list 'losing to me at chess'."],
+const CAT_SPRITES = {
+  jump: catJump,
+  playing: catPlaying,
+  run: catRun,
+  sit: catSit,
+  sleep: catSleep,
 }
 
-const IDLE_LINES = ["Hey.", "Boop.", "Nice cursor.", "Still here.", "Try the light switch, top right."]
+const EDGE_PADDING = 20
+const ARRIVE_EPSILON = 3
+const NAP_AFTER = 12000
+const PLAY_FOR = 2000
+const DISMISS_KEY = "ion-pet-dismissed"
 
-const HELLO_LINE = "hi — click me 👋"
-const WELCOME_BACK_LINE = "you came back for me 🐾"
+// Hoisted: a fresh array literal on every render would make the scroll-spy
+// effect tear down and re-subscribe each time.
+const SECTION_IDS = SECTIONS.map((section) => section.id) as unknown as string[]
+
+type Species = "critter" | "cat"
+
+const SPECIES: Species[] = ["critter", "cat"]
+
+interface Personality {
+  /** Sprite footprint in px — also what keeps it clear of the screen edge. */
+  size: number
+  /** Walking pace, px per second. */
+  speed: number
+  /** Where it stands on first load, as a fraction of the viewport width. */
+  start: number
+  /** Offset from the cursor, so the two never crowd the same spot. */
+  followOffset: number
+  hello: string
+  welcomeBack: string
+  /** What it says when poked, keyed by the section you're reading. */
+  sectionLines: Record<string, string[]>
+  idleLines: string[]
+}
+
+const PERSONALITIES: Record<Species, Personality> = {
+  critter: {
+    size: 56,
+    speed: 70,
+    start: 0.18,
+    followOffset: 34,
+    hello: "hi — click me 👋",
+    welcomeBack: "you came back for me 🐾",
+    sectionLines: {
+      about: [
+        "That's my human up there.",
+        "He types a lot. I supervise.",
+        "Ask him about encrypted ML. Bring snacks.",
+      ],
+      experience: [
+        "He says yes to a lot of committees.",
+        "Treasurer AND president. Wild.",
+        "Third place at a hackathon. I helped.",
+      ],
+      education: [
+        "Two years down, one to go.",
+        "Cryptography homework smells like coffee.",
+        "He revises out loud. I listen.",
+      ],
+      projects: [
+        "There's a lot down here. Scroll on.",
+        "One of these is an app about me, actually.",
+        "Filter the buttons up top — I'll wait.",
+      ],
+      skills: [
+        "I only know 'sit'.",
+        "Kotlin? Never heard of her.",
+        "He forgot to list 'losing to me at chess'.",
+      ],
+    },
+    idleLines: ["Hey.", "Boop.", "Nice cursor.", "Still here.", "Try the light switch, top right."],
+  },
+  cat: {
+    size: 64,
+    speed: 96, // cats dart; it should out-pace the critter noticeably
+    start: 0.62,
+    followOffset: -34,
+    hello: "...oh. you're still here.",
+    welcomeBack: "took you long enough.",
+    sectionLines: {
+      about: [
+        "He's fine. I've had worse humans.",
+        "I sit on the keyboard. It helps.",
+        "He talks about me in interviews.",
+      ],
+      experience: [
+        "Committees. So many committees.",
+        "Third at a hackathon. I slept through it.",
+        "Treasurer — ask where my treats went.",
+      ],
+      education: [
+        "Cryptography. I nap through it.",
+        "He revises out loud. I judge quietly.",
+        "Third year. Allegedly.",
+      ],
+      projects: [
+        "I came out of one of these, you know.",
+        "The Android overlay one. I was the sprite.",
+        "Scroll. I'll be here. Probably.",
+      ],
+      skills: [
+        "My skill is knocking things off tables.",
+        "Kotlin, Python, whatever. I watched.",
+        "He can't open doors either. I checked.",
+      ],
+    },
+    idleLines: ["...", "Mrrp.", "You again.", "I was sleeping.", "Don't."],
+  },
+}
 
 const randomOf = <T,>(items: T[]) => items[Math.floor(Math.random() * items.length)]
 
-const clampX = (x: number) => {
-  const max = window.innerWidth - PET_WIDTH - EDGE_PADDING
+const clampX = (x: number, size: number) => {
+  const max = window.innerWidth - size - EDGE_PADDING
   return Math.min(Math.max(x, EDGE_PADDING), Math.max(EDGE_PADDING, max))
 }
 
 /**
- * A small companion that walks along the bottom of the page. It wanders on its
- * own, follows the cursor when you come down to its level, and says something
- * about whichever section you're reading when you click it.
+ * Which companions have been sent away. Stored as a comma-separated list; the
+ * value "1" is what the single-pet version wrote, and still means "all of them".
+ */
+const readDismissed = (): Species[] => {
+  try {
+    const raw = window.localStorage.getItem(DISMISS_KEY)
+    if (!raw) return []
+    if (raw === "1") return [...SPECIES]
+    return raw.split(",").filter((value): value is Species => SPECIES.includes(value as Species))
+  } catch {
+    // Storage unavailable — show everyone.
+    return []
+  }
+}
+
+const writeDismissed = (list: Species[]) => {
+  try {
+    if (list.length === 0) window.localStorage.removeItem(DISMISS_KEY)
+    else window.localStorage.setItem(DISMISS_KEY, list.join(","))
+  } catch {
+    // Nothing to persist to; the choice lasts for this visit only.
+  }
+}
+
+/**
+ * The companions that walk along the bottom of the page: a hand-drawn critter
+ * and the pixel cat lifted from the Android overlay app. Each wanders on its
+ * own, comes when the cursor drops to its level, and says something about
+ * whichever section you're reading when you click it.
  *
- * Position is written straight to the DOM node inside the animation frame —
- * putting it in React state would re-render the tree sixty times a second for
- * a decoration.
+ * This component owns only the roster — who is on screen and who has been sent
+ * away. Everything about how one of them behaves lives in Companion below.
  */
 export function PetCompanion() {
+  const [ready, setReady] = useState(false)
+  const [dismissed, setDismissed] = useState<Species[]>([])
+  // Still mode: they appear and respond, but never move on their own.
+  const [reducedMotion, setReducedMotion] = useState(false)
+
+  // Who has been summoned back at least once, so a returning pet greets you
+  // differently from one you're meeting for the first time.
+  const returnedRef = useRef<Set<Species>>(new Set())
+
+  const activeId = useActiveSection(SECTION_IDS)
+
+  useEffect(() => {
+    setDismissed(readDismissed())
+    setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+    setReady(true)
+  }, [])
+
+  // Persist the roster whenever it changes, rather than from inside the state
+  // updaters — React may call those more than once per update. This also
+  // quietly migrates the old single-pet "1" value to the new list form.
+  useEffect(() => {
+    if (!ready) return
+    writeDismissed(dismissed)
+  }, [ready, dismissed])
+
+  const dismiss = useCallback((species: Species) => {
+    setDismissed((current) => (current.includes(species) ? current : [...current, species]))
+  }, [])
+
+  const summonAll = useCallback(() => {
+    dismissed.forEach((species) => returnedRef.current.add(species))
+    setDismissed([])
+  }, [dismissed])
+
+  if (!ready) return null
+
+  const onScreen = SPECIES.filter((species) => !dismissed.includes(species))
+
+  return (
+    <>
+      {/* Deliberately not aria-hidden: these hold real buttons, and a screen
+          reader user needs the option to send them away. */}
+      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 hidden h-0 sm:block">
+        {onScreen.map((species) => (
+          <Companion
+            key={species}
+            species={species}
+            activeId={activeId}
+            reducedMotion={reducedMotion}
+            greeting={
+              returnedRef.current.has(species)
+                ? PERSONALITIES[species].welcomeBack
+                : PERSONALITIES[species].hello
+            }
+            onDismiss={() => dismiss(species)}
+          />
+        ))}
+      </div>
+
+      {/* Sent away, but never for good — the hide control is small and sits
+          right on the animal, so it's easy to hit by accident. */}
+      {dismissed.length > 0 && (
+        <button
+          type="button"
+          onClick={summonAll}
+          aria-label={dismissed.length > 1 ? "Bring back the companions" : "Bring back the companion"}
+          title={dismissed.length > 1 ? "Bring back the companions" : "Bring back the companion"}
+          className="fixed bottom-6 right-6 z-30 hidden h-9 w-9 place-items-center rounded-full border border-border bg-background/80 text-muted-foreground backdrop-blur transition-colors hover:border-primary/50 hover:text-foreground sm:grid"
+        >
+          <PawPrint className="h-4 w-4" />
+        </button>
+      )}
+    </>
+  )
+}
+
+/**
+ * One companion. Position is written straight to the DOM node inside the
+ * animation frame — putting it in React state would re-render the tree sixty
+ * times a second for a decoration.
+ *
+ * Being unmounted is what hides a companion, so every loop below stops on its
+ * own when one is sent away, and starts fresh when it's summoned back.
+ */
+function Companion({
+  species,
+  activeId,
+  reducedMotion,
+  greeting,
+  onDismiss,
+}: {
+  species: Species
+  activeId: string
+  reducedMotion: boolean
+  greeting: string
+  onDismiss: () => void
+}) {
+  const personality = PERSONALITIES[species]
+  const { size, speed, followOffset } = personality
+
   const petRef = useRef<HTMLDivElement>(null)
   const xRef = useRef(0)
   const targetRef = useRef(0)
   const lastFrameRef = useRef(0)
   const bubbleTimerRef = useRef<number | undefined>(undefined)
-  // What the pet says the next time it appears — a hello on first load, and a
-  // warmer line when you've deliberately summoned it back.
-  const greetingRef = useRef(HELLO_LINE)
+  const playTimerRef = useRef<number | undefined>(undefined)
 
-  const [ready, setReady] = useState(false)
-  const [dismissed, setDismissed] = useState(false)
-  // Still mode: the pet appears and responds, but never moves on its own.
-  const [reducedMotion, setReducedMotion] = useState(false)
+  const [placed, setPlaced] = useState(false)
   const [walking, setWalking] = useState(false)
+  const [asleep, setAsleep] = useState(false)
+  const [playing, setPlaying] = useState(false)
   const [facingLeft, setFacingLeft] = useState(false)
   const [bubble, setBubble] = useState<string | null>(null)
 
-  const activeId = useActiveSection(SECTIONS.map((section) => section.id) as unknown as string[])
   // The animation loop must not restart every time the reader scrolls into a
-  // new section, so the loop reads the section from a ref instead.
+  // new section, so the click handler reads the section from a ref.
   const activeIdRef = useRef(activeId)
   activeIdRef.current = activeId
 
@@ -71,43 +295,19 @@ export function PetCompanion() {
     bubbleTimerRef.current = window.setTimeout(() => setBubble(null), duration)
   }, [])
 
-  // Put the pet on stage. Both entry points run this — the first page load and
-  // a summon after the reader has sent it away — so there's one definition of
-  // where it comes in and how it behaves.
-  const start = useCallback(() => {
-    setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches)
-    xRef.current = clampX(window.innerWidth * 0.18)
+  // Pick a starting spot before the first paint, so nothing flashes in at x=0.
+  useEffect(() => {
+    xRef.current = clampX(window.innerWidth * personality.start, size)
     targetRef.current = xRef.current
-    setReady(true)
-  }, [])
-
-  // A dismissal is the only thing that hides the pet outright. "Reduce motion"
-  // asks for no movement, not for the feature to disappear — so in that mode
-  // the pet still shows up and still talks, it just stays put.
-  useEffect(() => {
-    let hidden = false
-    try {
-      hidden = window.localStorage.getItem(DISMISS_KEY) === "1"
-    } catch {
-      // Storage unavailable — just show the pet.
+    if (petRef.current) {
+      petRef.current.style.transform = `translate3d(${xRef.current}px, 0, 0)`
     }
-    if (hidden) {
-      setDismissed(true)
-      return
-    }
-    start()
-  }, [start])
-
-  // Place the pet at its starting spot. In still mode this is the only time
-  // the transform is written; otherwise the walk loop takes over from here.
-  useEffect(() => {
-    if (!ready || !petRef.current) return
-    petRef.current.style.transform = `translate3d(${xRef.current}px, 0, 0)`
-  }, [ready])
+    setPlaced(true)
+  }, [personality.start, size])
 
   // Walk loop: ease toward the current target, flip to face the way we move.
   useEffect(() => {
-    if (!ready || dismissed || reducedMotion) return
+    if (!placed || reducedMotion) return
     let frame = 0
 
     const step = (now: number) => {
@@ -119,7 +319,7 @@ export function PetCompanion() {
       const distance = targetRef.current - xRef.current
       if (Math.abs(distance) > ARRIVE_EPSILON) {
         const direction = Math.sign(distance)
-        const travel = Math.min(WALK_SPEED * delta, Math.abs(distance))
+        const travel = Math.min(speed * delta, Math.abs(distance))
         xRef.current += direction * travel
         setWalking(true)
         setFacingLeft(direction < 0)
@@ -138,32 +338,41 @@ export function PetCompanion() {
       lastFrameRef.current = 0
       window.cancelAnimationFrame(frame)
     }
-  }, [ready, dismissed, reducedMotion])
+  }, [placed, reducedMotion, speed])
 
   // Wander to a new spot every few seconds when left alone.
   useEffect(() => {
-    if (!ready || dismissed || reducedMotion) return
+    if (!placed || reducedMotion) return
     const wander = window.setInterval(() => {
       if (document.hidden) return
-      targetRef.current = clampX(Math.random() * window.innerWidth)
+      targetRef.current = clampX(Math.random() * window.innerWidth, size)
     }, 5000)
     return () => window.clearInterval(wander)
-  }, [ready, dismissed, reducedMotion])
+  }, [placed, reducedMotion, size])
 
-  // Come when called: the pet only notices the cursor near the bottom strip,
-  // so it doesn't chase the reader around the whole page. Chasing is movement,
-  // so it's off in still mode — but the pet must still be kept on screen when
-  // the window is resized.
+  // Stand still long enough and the cat curls up. Walking wakes it again.
   useEffect(() => {
-    if (!ready || dismissed) return
+    if (walking) {
+      setAsleep(false)
+      return
+    }
+    const nap = window.setTimeout(() => setAsleep(true), NAP_AFTER)
+    return () => window.clearTimeout(nap)
+  }, [walking])
+
+  // Come when called: they only notice the cursor near the bottom strip, so
+  // they don't chase the reader around the whole page. Chasing is movement, so
+  // it's off in still mode — but they must still be kept on screen on resize.
+  useEffect(() => {
+    if (!placed) return
     const onPointerMove = (event: PointerEvent) => {
       if (event.clientY > window.innerHeight - 180) {
-        targetRef.current = clampX(event.clientX - PET_WIDTH / 2)
+        targetRef.current = clampX(event.clientX - size / 2 + followOffset, size)
       }
     }
     const onResize = () => {
-      xRef.current = clampX(xRef.current)
-      targetRef.current = clampX(targetRef.current)
+      xRef.current = clampX(xRef.current, size)
+      targetRef.current = clampX(targetRef.current, size)
       // Nothing else writes the transform in still mode, so do it here.
       if (reducedMotion && petRef.current) {
         petRef.current.style.transform = `translate3d(${xRef.current}px, 0, 0)`
@@ -177,103 +386,122 @@ export function PetCompanion() {
       window.removeEventListener("pointermove", onPointerMove)
       window.removeEventListener("resize", onResize)
     }
-  }, [ready, dismissed, reducedMotion])
+  }, [placed, reducedMotion, size, followOffset])
 
-  // A greeting on arrival, so people know it's clickable. The line lives in a
-  // ref so each way of arriving gets its own — a hello on first load, a warmer
-  // one when the reader has gone out of their way to summon it back.
+  // A greeting on arrival, so people know they're clickable.
   useEffect(() => {
-    if (!ready || dismissed) return
-    const line = greetingRef.current
-    const hello = window.setTimeout(() => say(line, 4200), 1800)
+    if (!placed) return
+    const hello = window.setTimeout(() => say(greeting, 4200), 1800)
     return () => window.clearTimeout(hello)
-  }, [ready, dismissed, say])
+  }, [placed, greeting, say])
 
-  useEffect(() => () => window.clearTimeout(bubbleTimerRef.current), [])
+  useEffect(
+    () => () => {
+      window.clearTimeout(bubbleTimerRef.current)
+      window.clearTimeout(playTimerRef.current)
+    },
+    [],
+  )
 
   const onPet = () => {
-    const lines = SECTION_LINES[activeIdRef.current] ?? IDLE_LINES
+    const lines = personality.sectionLines[activeIdRef.current] ?? personality.idleLines
     say(randomOf(lines))
+    setAsleep(false)
+    setPlaying(true)
+    window.clearTimeout(playTimerRef.current)
+    playTimerRef.current = window.setTimeout(() => setPlaying(false), PLAY_FOR)
   }
 
-  const onDismiss = () => {
-    setDismissed(true)
-    try {
-      window.localStorage.setItem(DISMISS_KEY, "1")
-    } catch {
-      // Nothing to persist to; it'll be back next visit.
-    }
-  }
-
-  const onSummon = () => {
-    greetingRef.current = WELCOME_BACK_LINE
-    try {
-      window.localStorage.removeItem(DISMISS_KEY)
-    } catch {
-      // Nothing to clear; the pet is back for this visit either way.
-    }
-    start()
-    setDismissed(false)
-  }
-
-  // Sent away, but never for good — the hide control is small and sits right on
-  // the critter, so it's easy to hit by accident. Leave a way back.
-  if (dismissed) {
-    return (
-      <button
-        type="button"
-        onClick={onSummon}
-        aria-label="Bring back the companion"
-        title="Bring back the companion"
-        className="fixed bottom-6 right-6 z-30 hidden h-9 w-9 place-items-center rounded-full border border-border bg-background/80 text-muted-foreground backdrop-blur transition-colors hover:border-primary/50 hover:text-foreground sm:grid"
-      >
-        <PawPrint className="h-4 w-4" />
-      </button>
-    )
-  }
-
-  if (!ready) return null
-
-  // Deliberately not aria-hidden: it holds real buttons, and a screen-reader
-  // user needs the option to dismiss it.
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 hidden h-0 sm:block">
-      <div ref={petRef} className="absolute bottom-6 left-0 will-change-transform">
-        {/* Speech bubble */}
-        {bubble && (
-          <div
-            className="absolute bottom-full left-1/2 mb-3 w-max max-w-[16rem] -translate-x-1/2 rounded-xl border border-border bg-popover px-3 py-2 text-xs text-popover-foreground shadow-lg"
-            style={{ animation: "bubble-in 220ms cubic-bezier(0.16, 1, 0.3, 1)" }}
-          >
-            {bubble}
-            <span className="absolute left-1/2 top-full h-2 w-2 -translate-x-1/2 -translate-y-1 rotate-45 border-b border-r border-border bg-popover" />
-          </div>
-        )}
-
-        <div className="group relative">
-          <button
-            type="button"
-            onClick={onPet}
-            aria-label="Pet the companion"
-            className="pointer-events-auto block cursor-pointer border-0 bg-transparent p-0"
-            style={{ animation: walking ? "pet-bob 380ms ease-in-out infinite" : undefined }}
-          >
-            <Critter walking={walking} facingLeft={facingLeft} />
-          </button>
-
-          {/* Send-away control, revealed on hover. */}
-          <button
-            type="button"
-            onClick={onDismiss}
-            aria-label="Hide the companion"
-            title="Hide the companion"
-            className="pointer-events-auto absolute -right-1 -top-1 grid h-4 w-4 place-items-center rounded-full border border-border bg-background text-[9px] leading-none text-muted-foreground opacity-0 transition-opacity hover:text-foreground focus:opacity-100 group-hover:opacity-100 group-focus-within:opacity-100"
-          >
-            ✕
-          </button>
+    <div ref={petRef} className="absolute bottom-6 left-0 will-change-transform">
+      {/* Speech bubble */}
+      {bubble && (
+        <div
+          className="absolute bottom-full left-1/2 mb-3 w-max max-w-[16rem] -translate-x-1/2 rounded-xl border border-border bg-popover px-3 py-2 text-xs text-popover-foreground shadow-lg"
+          style={{ animation: "bubble-in 220ms cubic-bezier(0.16, 1, 0.3, 1)" }}
+        >
+          {bubble}
+          <span className="absolute left-1/2 top-full h-2 w-2 -translate-x-1/2 -translate-y-1 rotate-45 border-b border-r border-border bg-popover" />
         </div>
+      )}
+
+      <div className="group relative">
+        <button
+          type="button"
+          onClick={onPet}
+          aria-label={species === "cat" ? "Pet the cat" : "Pet the companion"}
+          className="pointer-events-auto block cursor-pointer border-0 bg-transparent p-0"
+          style={{
+            // The cat's sprite animates itself, so it only needs the bob when
+            // the critter does — which is to say, never for the cat.
+            animation: walking && species === "critter" ? "pet-bob 380ms ease-in-out infinite" : undefined,
+          }}
+        >
+          {species === "cat" ? (
+            <CatSprite walking={walking} asleep={asleep} playing={playing} facingLeft={facingLeft} />
+          ) : (
+            <Critter walking={walking} facingLeft={facingLeft} />
+          )}
+        </button>
+
+        {/* Send-away control, revealed on hover. */}
+        <button
+          type="button"
+          onClick={onDismiss}
+          aria-label={species === "cat" ? "Hide the cat" : "Hide the companion"}
+          title={species === "cat" ? "Hide the cat" : "Hide the companion"}
+          className="pointer-events-auto absolute -right-1 -top-1 grid h-4 w-4 place-items-center rounded-full border border-border bg-background text-[9px] leading-none text-muted-foreground opacity-0 transition-opacity hover:text-foreground focus:opacity-100 group-hover:opacity-100 group-focus-within:opacity-100"
+        >
+          ✕
+        </button>
       </div>
     </div>
+  )
+}
+
+/**
+ * The pixel cat from the Android overlay app. Each state is its own two-frame
+ * GIF, so the browser runs the animation — all this has to do is pick one.
+ */
+function CatSprite({
+  walking,
+  asleep,
+  playing,
+  facingLeft,
+}: {
+  walking: boolean
+  asleep: boolean
+  playing: boolean
+  facingLeft: boolean
+}) {
+  // A hop on the way in. This mounts with the cat, so it plays on first load
+  // and again each time it's summoned back.
+  const [arriving, setArriving] = useState(true)
+  useEffect(() => {
+    const landed = window.setTimeout(() => setArriving(false), 700)
+    return () => window.clearTimeout(landed)
+  }, [])
+
+  const state = arriving
+    ? "jump"
+    : playing
+      ? "playing"
+      : walking
+        ? "run"
+        : asleep
+          ? "sleep"
+          : "sit"
+
+  return (
+    <Image
+      src={CAT_SPRITES[state]}
+      alt=""
+      width={64}
+      height={64}
+      unoptimized
+      className="cat-sprite block transition-transform"
+      style={{ transform: facingLeft ? "scaleX(-1)" : undefined }}
+    />
   )
 }
 
@@ -293,8 +521,8 @@ function Critter({ walking, facingLeft }: { walking: boolean; facingLeft: boolea
   return (
     <svg
       aria-hidden="true"
-      width={PET_WIDTH}
-      height={PET_WIDTH}
+      width={PERSONALITIES.critter.size}
+      height={PERSONALITIES.critter.size}
       viewBox="0 0 56 56"
       fill="none"
       className="drop-shadow-sm transition-transform"

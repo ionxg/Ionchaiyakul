@@ -231,6 +231,18 @@
   }
 }
 
+/* The cat is a 64px pixel-art sprite, so it must not be smoothed when scaled.
+   It's also a near-black silhouette — against the dark theme's near-black
+   background it would all but vanish, so give it a rim light there. */
+.cat-sprite {
+  image-rendering: pixelated;
+}
+
+.dark .cat-sprite {
+  filter: drop-shadow(0 0 1px oklch(0.95 0.01 240 / 0.55))
+    drop-shadow(0 0 3px oklch(0.95 0.01 240 / 0.3));
+}
+
 @keyframes bubble-in {
   from {
     opacity: 0;
