@@ -231,6 +231,24 @@
   }
 }
 
+/* The orbit companion: the ring turns constantly and speeds up when it travels,
+   while the core lifts and settles in time with it. */
+@keyframes orbit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbit-hover {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2.5px);
+  }
+}
+
 /* The cat is a 64px pixel-art sprite, so it must not be smoothed when scaled.
    It's also a near-black silhouette — against the dark theme's near-black
    background it would all but vanish, so give it a rim light there. */

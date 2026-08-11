@@ -33,9 +33,9 @@ const DISMISS_KEY = "ion-pet-dismissed"
 // effect tear down and re-subscribe each time.
 const SECTION_IDS = SECTIONS.map((section) => section.id) as unknown as string[]
 
-type Species = "critter" | "cat"
+type Species = "critter" | "cat" | "orbit"
 
-const SPECIES: Species[] = ["critter", "cat"]
+const SPECIES: Species[] = ["critter", "cat", "orbit"]
 
 interface Personality {
   /** Sprite footprint in px — also what keeps it clear of the screen edge. */
@@ -136,6 +136,46 @@ const PERSONALITIES: Record<Species, Personality> = {
       ],
     },
     idleLines: ["...", "Mrrp.", "You again.", "I was sleeping.", "Don't."],
+  },
+  orbit: {
+    size: 56,
+    speed: 52, // the slowest of the three — it drifts rather than trots
+    start: 0.4,
+    followOffset: 0, // sits between the other two when they all come running
+    petLabel: "Poke the orbit",
+    hideLabel: "Hide the orbit",
+    hello: "◎ orbit online.",
+    welcomeBack: "◎ resuming.",
+    // Not an animal, so it doesn't talk like one: clipped, observational,
+    // reporting rather than chatting.
+    sectionLines: {
+      about: [
+        "Subject: one human. Status: busy.",
+        "Scanning. He checks out.",
+        "I keep him in frame.",
+      ],
+      experience: [
+        "Committee count: too many.",
+        "Hackathon, third place. Logged.",
+        "Two titles, one human.",
+      ],
+      education: [
+        "Cryptography module: in progress.",
+        "Three years elapsed. One remaining.",
+        "Coursework detected. Coffee detected.",
+      ],
+      projects: [
+        "Entries indexed. Scroll to browse.",
+        "Filter above. I'll re-index.",
+        "Some of these ship. Some sleep.",
+      ],
+      skills: [
+        "Inventory: extensive.",
+        "Languages parsed. All of them.",
+        "No entry for chess. Noted.",
+      ],
+    },
+    idleLines: ["◎", "Holding position.", "Still tracking.", "Nothing to report.", "Orbiting."],
   },
 }
 
@@ -451,6 +491,8 @@ function Companion({
         >
           {species === "cat" ? (
             <CatSprite walking={walking} asleep={asleep} playing={playing} facingLeft={facingLeft} />
+          ) : species === "orbit" ? (
+            <OrbitForm walking={walking} playing={playing} />
           ) : (
             <Critter walking={walking} facingLeft={facingLeft} />
           )}
@@ -514,6 +556,60 @@ function CatSprite({
       className="cat-sprite block transition-transform"
       style={{ transform: facingLeft ? "scaleX(-1)" : undefined }}
     />
+  )
+}
+
+/**
+ * A core with a ring tumbling around it. Radially symmetric, so unlike the
+ * other two it never flips to face its direction of travel — the ring spinning
+ * up is what reads as movement.
+ */
+function OrbitForm({ walking, playing }: { walking: boolean; playing: boolean }) {
+  // Poking it makes the ring race for a moment; travelling only spins it up.
+  const spin = playing ? "0.45s" : walking ? "1.1s" : "7s"
+
+  return (
+    <svg
+      aria-hidden="true"
+      width={PERSONALITIES.orbit.size}
+      height={PERSONALITIES.orbit.size}
+      viewBox="0 0 56 56"
+      fill="none"
+      className="drop-shadow-sm"
+    >
+      {/* Soft shadow on the ground */}
+      <ellipse cx="28" cy="51" rx="10" ry="2.5" className="fill-foreground/10" />
+
+      <g
+        style={{
+          animation: `orbit-spin ${spin} linear infinite`,
+          transformOrigin: "28px 30px",
+          transformBox: "view-box",
+        }}
+      >
+        <ellipse
+          cx="28"
+          cy="30"
+          rx="18"
+          ry="7"
+          className="stroke-primary"
+          strokeWidth="2.5"
+          opacity="0.9"
+        />
+      </g>
+
+      <g
+        style={{
+          animation: walking ? "orbit-hover 640ms ease-in-out infinite" : undefined,
+          transformOrigin: "28px 30px",
+          transformBox: "view-box",
+        }}
+      >
+        <circle cx="28" cy="30" r="9.5" className="fill-primary" />
+        {/* The slit reads as attention — the only feature it has. */}
+        <rect x="23" y="28.5" width="10" height="3" rx="1.5" className="fill-background" />
+      </g>
+    </svg>
   )
 }
 
