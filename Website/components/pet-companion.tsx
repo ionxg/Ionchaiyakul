@@ -1,6 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useRef, useState } from "react"
+import { PawPrint } from "lucide-react"
 import { useActiveSection } from "@/hooks/use-active-section"
 import { SECTIONS } from "@/components/site-nav"
 
@@ -20,6 +21,9 @@ const SECTION_LINES: Record<string, string[]> = {
 }
 
 const IDLE_LINES = ["Hey.", "Boop.", "Nice cursor.", "Still here.", "Try the light switch, top right."]
+
+const HELLO_LINE = "hi — click me 👋"
+const WELCOME_BACK_LINE = "you came back for me 🐾"
 
 const randomOf = <T,>(items: T[]) => items[Math.floor(Math.random() * items.length)]
 
@@ -43,6 +47,9 @@ export function PetCompanion() {
   const targetRef = useRef(0)
   const lastFrameRef = useRef(0)
   const bubbleTimerRef = useRef<number | undefined>(undefined)
+  // What the pet says the next time it appears — a hello on first load, and a
+  // warmer line when you've deliberately summoned it back.
+  const greetingRef = useRef(HELLO_LINE)
 
   const [ready, setReady] = useState(false)
   const [dismissed, setDismissed] = useState(false)
@@ -64,6 +71,16 @@ export function PetCompanion() {
     bubbleTimerRef.current = window.setTimeout(() => setBubble(null), duration)
   }, [])
 
+  // Put the pet on stage. Both entry points run this — the first page load and
+  // a summon after the reader has sent it away — so there's one definition of
+  // where it comes in and how it behaves.
+  const start = useCallback(() => {
+    setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+    xRef.current = clampX(window.innerWidth * 0.18)
+    targetRef.current = xRef.current
+    setReady(true)
+  }, [])
+
   // A dismissal is the only thing that hides the pet outright. "Reduce motion"
   // asks for no movement, not for the feature to disappear — so in that mode
   // the pet still shows up and still talks, it just stays put.
@@ -78,11 +95,8 @@ export function PetCompanion() {
       setDismissed(true)
       return
     }
-    setReducedMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches)
-    xRef.current = clampX(window.innerWidth * 0.18)
-    targetRef.current = xRef.current
-    setReady(true)
-  }, [])
+    start()
+  }, [start])
 
   // Place the pet at its starting spot. In still mode this is the only time
   // the transform is written; otherwise the walk loop takes over from here.
@@ -93,7 +107,7 @@ export function PetCompanion() {
 
   // Walk loop: ease toward the current target, flip to face the way we move.
   useEffect(() => {
-    if (!ready || reducedMotion) return
+    if (!ready || dismissed || reducedMotion) return
     let frame = 0
 
     const step = (now: number) => {
@@ -124,24 +138,24 @@ export function PetCompanion() {
       lastFrameRef.current = 0
       window.cancelAnimationFrame(frame)
     }
-  }, [ready, reducedMotion])
+  }, [ready, dismissed, reducedMotion])
 
   // Wander to a new spot every few seconds when left alone.
   useEffect(() => {
-    if (!ready || reducedMotion) return
+    if (!ready || dismissed || reducedMotion) return
     const wander = window.setInterval(() => {
       if (document.hidden) return
       targetRef.current = clampX(Math.random() * window.innerWidth)
     }, 5000)
     return () => window.clearInterval(wander)
-  }, [ready, reducedMotion])
+  }, [ready, dismissed, reducedMotion])
 
   // Come when called: the pet only notices the cursor near the bottom strip,
   // so it doesn't chase the reader around the whole page. Chasing is movement,
   // so it's off in still mode — but the pet must still be kept on screen when
   // the window is resized.
   useEffect(() => {
-    if (!ready) return
+    if (!ready || dismissed) return
     const onPointerMove = (event: PointerEvent) => {
       if (event.clientY > window.innerHeight - 180) {
         targetRef.current = clampX(event.clientX - PET_WIDTH / 2)
@@ -163,14 +177,17 @@ export function PetCompanion() {
       window.removeEventListener("pointermove", onPointerMove)
       window.removeEventListener("resize", onResize)
     }
-  }, [ready, reducedMotion])
+  }, [ready, dismissed, reducedMotion])
 
-  // A one-time hello, so people know it's clickable.
+  // A greeting on arrival, so people know it's clickable. The line lives in a
+  // ref so each way of arriving gets its own — a hello on first load, a warmer
+  // one when the reader has gone out of their way to summon it back.
   useEffect(() => {
-    if (!ready) return
-    const hello = window.setTimeout(() => say("hi — click me 👋", 4200), 1800)
+    if (!ready || dismissed) return
+    const line = greetingRef.current
+    const hello = window.setTimeout(() => say(line, 4200), 1800)
     return () => window.clearTimeout(hello)
-  }, [ready, say])
+  }, [ready, dismissed, say])
 
   useEffect(() => () => window.clearTimeout(bubbleTimerRef.current), [])
 
@@ -188,7 +205,34 @@ export function PetCompanion() {
     }
   }
 
-  if (dismissed || !ready) return null
+  const onSummon = () => {
+    greetingRef.current = WELCOME_BACK_LINE
+    try {
+      window.localStorage.removeItem(DISMISS_KEY)
+    } catch {
+      // Nothing to clear; the pet is back for this visit either way.
+    }
+    start()
+    setDismissed(false)
+  }
+
+  // Sent away, but never for good — the hide control is small and sits right on
+  // the critter, so it's easy to hit by accident. Leave a way back.
+  if (dismissed) {
+    return (
+      <button
+        type="button"
+        onClick={onSummon}
+        aria-label="Bring back the companion"
+        title="Bring back the companion"
+        className="fixed bottom-6 right-6 z-30 hidden h-9 w-9 place-items-center rounded-full border border-border bg-background/80 text-muted-foreground backdrop-blur transition-colors hover:border-primary/50 hover:text-foreground sm:grid"
+      >
+        <PawPrint className="h-4 w-4" />
+      </button>
+    )
+  }
+
+  if (!ready) return null
 
   // Deliberately not aria-hidden: it holds real buttons, and a screen-reader
   // user needs the option to dismiss it.
