@@ -46,6 +46,10 @@ interface Personality {
   start: number
   /** Offset from the cursor, so the two never crowd the same spot. */
   followOffset: number
+  /** Hover title and accessible name for the animal itself. */
+  petLabel: string
+  /** Hover title and accessible name for its send-away control. */
+  hideLabel: string
   hello: string
   welcomeBack: string
   /** What it says when poked, keyed by the section you're reading. */
@@ -59,6 +63,8 @@ const PERSONALITIES: Record<Species, Personality> = {
     speed: 70,
     start: 0.18,
     followOffset: 34,
+    petLabel: "Pet the companion",
+    hideLabel: "Hide the companion",
     hello: "hi — click me 👋",
     welcomeBack: "you came back for me 🐾",
     sectionLines: {
@@ -95,8 +101,13 @@ const PERSONALITIES: Record<Species, Personality> = {
     speed: 96, // cats dart; it should out-pace the critter noticeably
     start: 0.62,
     followOffset: -34,
-    hello: "...oh. you're still here.",
-    welcomeBack: "took you long enough.",
+    petLabel: "Pet the cat — the sprite from the Pet Overlay Android app",
+    hideLabel: "Hide the cat",
+    // The cat says where it came from on arrival, so the connection to the
+    // Android project on this page isn't just an in-joke for people who
+    // happen to click it in the right section.
+    hello: "I'm the cat from his Pet Overlay Android app 🐾",
+    welcomeBack: "back from the Android app. again.",
     sectionLines: {
       about: [
         "He's fine. I've had worse humans.",
@@ -429,7 +440,8 @@ function Companion({
         <button
           type="button"
           onClick={onPet}
-          aria-label={species === "cat" ? "Pet the cat" : "Pet the companion"}
+          aria-label={personality.petLabel}
+          title={personality.petLabel}
           className="pointer-events-auto block cursor-pointer border-0 bg-transparent p-0"
           style={{
             // The cat's sprite animates itself, so it only needs the bob when
@@ -448,8 +460,8 @@ function Companion({
         <button
           type="button"
           onClick={onDismiss}
-          aria-label={species === "cat" ? "Hide the cat" : "Hide the companion"}
-          title={species === "cat" ? "Hide the cat" : "Hide the companion"}
+          aria-label={personality.hideLabel}
+          title={personality.hideLabel}
           className="pointer-events-auto absolute -right-1 -top-1 grid h-4 w-4 place-items-center rounded-full border border-border bg-background text-[9px] leading-none text-muted-foreground opacity-0 transition-opacity hover:text-foreground focus:opacity-100 group-hover:opacity-100 group-focus-within:opacity-100"
         >
           ✕
