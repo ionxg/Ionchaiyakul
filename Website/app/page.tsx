@@ -2,6 +2,7 @@ import { SiteNav } from "@/components/site-nav"
 import { HeroSection } from "@/components/hero-section"
 import { ExperienceSection } from "@/components/experience-section"
 import { EducationSection } from "@/components/education-section"
+import { CertificatesSection } from "@/components/certificates-section"
 import { ProjectsSection } from "@/components/projects-section"
 import { SkillsSection } from "@/components/skills-section"
 import { PetCompanion } from "@/components/pet-companion"
@@ -23,6 +24,7 @@ export default function Home() {
         <HeroSection />
         <ExperienceSection />
         <EducationSection />
+        <CertificatesSection />
         <ProjectsSection />
         <SkillsSection />
         <Footer />

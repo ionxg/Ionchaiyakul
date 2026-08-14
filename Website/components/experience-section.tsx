@@ -57,14 +57,6 @@ const experiences: ExperienceItem[] = [
     technologies: ["Sponsorship", "Networking", "Communication", "Relationship Management", "Negotiation"],
   },
   {
-    period: "2025",
-    title: "3rd Place - VUW Hackathon 2025",
-    company: "",
-    description:
-      "Collaborated with a team to develop an innovative solution during the VUW Hackathon 2025, demonstrating strong problem-solving skills and creativity in a competitive environment.",
-    technologies: ["React", "Node.js", "Git", "Docker"],
-  },
-  {
     period: "2024 — 2025",
     title: "Sponsorship",
     company: "Thai Student Association (TSA) - Victoria University of Wellington",
@@ -123,8 +115,8 @@ export function ExperienceSection() {
 
             return (
               <Reveal as="li" key={`${exp.title}-${exp.period}`} delay={index * 60}>
-                {/* Only entries with a real destination become links — the
-                    hackathon placing isn't somewhere you can click through to. */}
+                {/* Only entries with a real destination become links — an
+                    employer without a URL on file stays a plain card. */}
                 {exp.companyUrl ? (
                   <a
                     href={exp.companyUrl}
