@@ -40,6 +40,14 @@ const experiences: ExperienceItem[] = [
     technologies: ["Budgeting", "Financial Management", "Organization", "Communication", "Teamwork"],
   },
   {
+    period: "2026",
+    title: "Software Engineering Intern",
+    company: "CyberPay",
+    description:
+      "Built the store webpage and connected it to backend services through REST APIs, working in an Agile development team.",
+    technologies: ["Next.js", "TypeScript", "REST API", "Agile"],
+  },
+  {
     period: "2025 — 2026",
     title: "Sponsorship",
     company: "Language Exchange Club (LEC) - Victoria University of Wellington",
