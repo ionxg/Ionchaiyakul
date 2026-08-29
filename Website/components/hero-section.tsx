@@ -88,8 +88,8 @@ export function HeroSection() {
           </p>
 
           <p>
-            Security is the thread through most of it. I tutor cyber security at VUW, which
-            turns out to be the fastest way to find out what I only <em>thought</em> I
+            Security is the thread through most of it. I tutored cyber security at VUW, which
+            turned out to be the fastest way to find out what I only <em>thought</em> I
             understood. Alongside that I&rsquo;m researching how to train neural networks on
             data that stays encrypted end to end &mdash; privacy that doesn&rsquo;t cost you
             a usable model.

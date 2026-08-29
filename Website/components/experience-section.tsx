@@ -13,13 +13,12 @@ interface ExperienceItem {
 
 const experiences: ExperienceItem[] = [
   {
-    period: "2026 — Present",
-    title: "Academic Tutor",
-    company: "Victoria University of Wellington",
-    companyUrl: "https://www.wgtn.ac.nz/",
+    period: "Jun — Oct 2026",
+    title: "Software Engineering Intern",
+    company: "CyberPay",
     description:
-      "Provide academic support and guidance to students in Cyber Security, fostering a positive learning environment and helping them achieve their academic goals.",
-    technologies: ["Cyber Security", "Linux", "cryptography"],
+      "Built the store webpage and connected it to backend services through REST APIs, working in an Agile development team.",
+    technologies: ["Next.js", "TypeScript", "REST API", "Agile"],
   },
   {
     period: "2026 — Present",
@@ -40,12 +39,13 @@ const experiences: ExperienceItem[] = [
     technologies: ["Budgeting", "Financial Management", "Organization", "Communication", "Teamwork"],
   },
   {
-    period: "2026",
-    title: "Software Engineering Intern",
-    company: "CyberPay",
+    period: "Feb — Jun 2026",
+    title: "Academic Tutor",
+    company: "Victoria University of Wellington",
+    companyUrl: "https://www.wgtn.ac.nz/",
     description:
-      "Built the store webpage and connected it to backend services through REST APIs, working in an Agile development team.",
-    technologies: ["Next.js", "TypeScript", "REST API", "Agile"],
+      "Provided academic support and guidance to students in Cyber Security, fostering a positive learning environment and helping them achieve their academic goals.",
+    technologies: ["Cyber Security", "Linux", "cryptography"],
   },
   {
     period: "2025 — 2026",
