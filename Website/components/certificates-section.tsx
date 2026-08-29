@@ -1,4 +1,4 @@
-import { Atom, Award, Medal, Network, Trophy } from "lucide-react"
+import { Atom, Award, Lightbulb, Medal, Megaphone, Network, PenTool, Repeat, Trophy } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import { Reveal } from "@/components/reveal"
 import { SectionHeading } from "@/components/section-heading"
@@ -24,6 +24,46 @@ const certificates: Certificate[] = [
     description:
       "Currently studying towards the exam — network fundamentals, routing and switching, IP connectivity and services, and security basics.",
     technologies: ["Networking", "Routing & Switching", "TCP/IP", "Network Security"],
+  },
+  {
+    name: "HubSpot Marketing Hub Software Certified",
+    issuer: "HubSpot Academy",
+    issuerUrl: "https://academy.hubspot.com/",
+    period: "Aug 2026 — Sep 2027",
+    icon: Megaphone,
+    description:
+      "HubSpot Academy's certification on Marketing Hub — building and running an inbound marketing strategy across the platform's campaign, email, and CRM tooling.",
+    technologies: ["Marketing Hub", "Inbound Marketing", "Campaigns", "CRM"],
+  },
+  {
+    name: "Design Thinking",
+    issuer: "Stock Exchange of Thailand (SET)",
+    issuerUrl: "https://www.set.or.th/",
+    period: "2026",
+    icon: Lightbulb,
+    description:
+      "SET e-Learning course on the design thinking process — framing a problem around the people it affects before reaching for a solution.",
+    technologies: ["Design Thinking", "User Research", "Problem Framing"],
+  },
+  {
+    name: "Design Thinking in Practice",
+    issuer: "Stock Exchange of Thailand (SET)",
+    issuerUrl: "https://www.set.or.th/",
+    period: "2026",
+    icon: PenTool,
+    description:
+      "The follow-on course, applying the process to real cases — moving from user research through prototyping and into testing.",
+    technologies: ["Design Thinking", "Prototyping", "User Testing"],
+  },
+  {
+    name: "Agile Development",
+    issuer: "Stock Exchange of Thailand (SET)",
+    issuerUrl: "https://www.set.or.th/",
+    period: "2026",
+    icon: Repeat,
+    description:
+      "SET e-Learning course on Agile delivery — iterative planning, short feedback loops, and shipping work in increments rather than one drop.",
+    technologies: ["Agile", "Iterative Delivery", "Team Collaboration"],
   },
   {
     name: "Wellington Plus Award",
