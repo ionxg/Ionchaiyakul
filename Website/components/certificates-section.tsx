@@ -1,4 +1,17 @@
-import { Atom, Award, Lightbulb, Medal, Megaphone, Network, PenTool, Repeat, Trophy } from "lucide-react"
+import {
+  Atom,
+  Award,
+  Crown,
+  HeartHandshake,
+  Lightbulb,
+  Medal,
+  Megaphone,
+  Network,
+  PenTool,
+  Repeat,
+  Trophy,
+  Users,
+} from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import { Reveal } from "@/components/reveal"
 import { SectionHeading } from "@/components/section-heading"
@@ -93,6 +106,35 @@ const certificates: Certificate[] = [
     description:
       "Awarded at the VUWSA club awards, recognising the standout small club of the year for the events it ran and the community it built.",
     technologies: ["Leadership", "Event Planning", "Club Management"],
+  },
+  {
+    name: "Faculty Delegate — Engineering",
+    issuer: "VUWSA",
+    issuerUrl: "https://www.vuwsa.org.nz/",
+    period: "2026",
+    icon: Users,
+    description:
+      "Elected as the engineering faculty delegate — representing students on faculty matters and carrying their concerns back to the students’ association.",
+    technologies: ["Student Representation", "Advocacy", "Leadership"],
+  },
+  {
+    name: "Supreme Club Award",
+    issuer: "VUWSA",
+    issuerUrl: "https://www.vuwsa.org.nz/",
+    period: "2026",
+    icon: Crown,
+    description:
+      "The top honour at the VUWSA club awards, recognising the club of the year across its events, growth, and the community it built.",
+    technologies: ["Leadership", "Event Planning", "Club Management"],
+  },
+  {
+    name: "Contribution to Club Award",
+    issuer: "VUWSA",
+    issuerUrl: "https://www.vuwsa.org.nz/",
+    icon: HeartHandshake,
+    description:
+      "Recognised at the VUWSA club awards for sustained contribution behind the scenes — the organising, planning, and follow-through that keeps a club running.",
+    technologies: ["Leadership", "Volunteering", "Community Engagement"],
   },
   {
     name: "AINSE Site Visit — Sydney",
