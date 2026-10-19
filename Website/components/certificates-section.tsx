@@ -16,7 +16,8 @@ import type { LucideIcon } from "lucide-react"
 import { Reveal } from "@/components/reveal"
 import { SectionHeading } from "@/components/section-heading"
 
-interface Certificate {
+/** Shared with the terminal overlay, which lists these as files. */
+export interface Certificate {
   name: string
   issuer: string
   issuerUrl?: string
@@ -28,7 +29,7 @@ interface Certificate {
   inProgress?: boolean
 }
 
-const certificates: Certificate[] = [
+export const certificates: Certificate[] = [
   {
     name: "CCNA — Cisco Certified Network Associate",
     issuer: "Cisco",
@@ -131,6 +132,7 @@ const certificates: Certificate[] = [
     name: "Contribution to Club Award",
     issuer: "VUWSA",
     issuerUrl: "https://www.vuwsa.org.nz/",
+    period: "2026",
     icon: HeartHandshake,
     description:
       "Recognised at the VUWSA club awards for sustained contribution behind the scenes — the organising, planning, and follow-through that keeps a club running.",

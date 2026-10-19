@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { Menu, X } from "lucide-react"
 import { useActiveSection } from "@/hooks/use-active-section"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { TerminalOverlay } from "@/components/terminal-overlay"
 
 export const SECTIONS = [
   { id: "about", label: "About" },
@@ -89,6 +90,7 @@ export function SiteNav() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <TerminalOverlay />
           <ThemeToggle />
           <button
             type="button"
